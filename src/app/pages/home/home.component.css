@@ -1,0 +1,50 @@
+/* Hace el carrusel más bajo */
+.custom-carousel .carousel-img {
+  height: 340px;
+  object-fit: cover;
+}
+
+/* Asegura que el contenido tenga espacio */
+
+
+/* Imagen redondeada y ajustada */
+img.img-fluid {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.styled-paragraph {
+  color: #015761;
+  text-align: justify;
+  background-color: #f8f9fa;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid #015761; /* color azul tipo Bootstrap */
+  border-radius: 6px;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  margin-top: 1rem;
+}
+
+.styled-paragraph {
+  list-style-type: disc; /* podés cambiar por 'none' si no querés viñetas */
+  padding-left: 1.2rem;
+}
+
+.styled-paragraph li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.especialidades-bar {
+  background-color: #015761;
+  height: 70px;
+  padding: 10px 0;
+  overflow: hidden;
+}
+
+.icono-especialidad {
+  height: 24px;
+  width: auto;
+}
