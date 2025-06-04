@@ -4,12 +4,12 @@ import { FooterComponent } from '../../componentes/footer/footer.component';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DatabaseService } from '../../services/database.service';
-import { RecaptchaModule } from 'ng-recaptcha';
 import Swal from 'sweetalert2';
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 @Component({
   selector: 'app-especialista',
-  imports: [HeaderComponent, FooterComponent, ReactiveFormsModule, FormsModule, CommonModule, RecaptchaModule],
+  imports: [HeaderComponent, FooterComponent, ReactiveFormsModule, FormsModule, CommonModule, NgxCaptchaModule],
   templateUrl: './especialista.component.html',
   styleUrl: './especialista.component.css'
 })
@@ -25,7 +25,8 @@ foto_1!: File;
     edad: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
     dni: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
     foto_1: ['', Validators.required],
-    password: ['', [Validators.required, Validators.minLength(6)]]
+    password: ['', [Validators.required, Validators.minLength(6)]],
+    recaptcha: ['', Validators.required],
   });
 
   // Lista de especialidades predefinidas
@@ -80,27 +81,6 @@ foto_1!: File;
     }
   }
 
-captchaResuelto: boolean = false;
 
-verificarCaptcha() {
-  if (this.captchaResuelto) {
-    this.registrarEspecialista();
-  }else{
-      Swal.fire({
-          title: "Error!",
-          text: "Tenes que verificar el captcha",
-          icon: "error",
-          confirmButtonText: 'Entendido',
-          scrollbarPadding: false
-        })
-    }
-}
-
-onCaptchaResuelto(token: string | null) {
-  if (token) {
-    this.captchaResuelto = true;
-
-  }
-}
 
 }

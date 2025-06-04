@@ -3,7 +3,7 @@
 <div class="registro-container">
     <div class="lado izquierdo">
         <div class="contenido-registro text-center">
-            <form [formGroup]="registroForm"
+            <form [formGroup]="registroForm" (ngSubmit)="registrarPaciente()"
                 class="form-grid w-100 text-center needs-validation"  novalidate>
 
                 <h1 class="mb-3 fw-bold">Crear cuenta</h1>
@@ -92,13 +92,10 @@
 
                 </div>
                 <div class="form-row">
-                    <button class="btn btn-primary w-100 mb-3" type="submit" (click)="verificarCaptcha()"
+                    <button class="btn btn-primary w-100 mb-3" type="submit"
                         [disabled]="registroForm.invalid">Registrarse</button>
                     
-                    <re-captcha
-                        (resolved)="onCaptchaResuelto($event)"
-                        siteKey="6LcJQlUrAAAAABwojin_xgCRSm9bQDi5ODU5sq5E">
-                    </re-captcha>
+                    <ngx-recaptcha2 [siteKey]="'6LcJQlUrAAAAABwojin_xgCRSm9bQDi5ODU5sq5E'" [useGlobalDomain]="false" formControlName="recaptcha"></ngx-recaptcha2>
                 </div>
 
 

@@ -40,7 +40,7 @@
                     </span>
                 </div>
             </div>
-            <form [formGroup]="registroForm"
+            <form [formGroup]="registroForm" (ngSubmit)="registrarEspecialista()"
                 class="form-grid w-100 text-center needs-validation" novalidate>
 
                 <div class="form-row">
@@ -112,15 +112,12 @@
                 </div>
 
 
-                <button class="btn btn-primary w-100 mb-3" type="submit" (click)="verificarCaptcha()"
+                <button class="btn btn-primary w-100 mb-3" type="submit"
                     [disabled]="registroForm.invalid">Registrarse</button>
 
                 <!-- Captcha -->
                 <div class="mt-3 d-flex justify-content-center">
-                    <re-captcha
-                        (resolved)="onCaptchaResuelto($event)"
-                        siteKey="6LcJQlUrAAAAABwojin_xgCRSm9bQDi5ODU5sq5E">
-                    </re-captcha>
+                    <ngx-recaptcha2 [siteKey]="'6LcJQlUrAAAAABwojin_xgCRSm9bQDi5ODU5sq5E'" [useGlobalDomain]="false" formControlName="recaptcha"></ngx-recaptcha2>
                 </div>
 
             </form>

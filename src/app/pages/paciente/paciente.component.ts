@@ -3,12 +3,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { HeaderComponent } from '../../componentes/header/header.component';
 import { FooterComponent } from '../../componentes/footer/footer.component';
 import { DatabaseService } from '../../services/database.service';
-import { RecaptchaModule } from 'ng-recaptcha';
 import Swal from 'sweetalert2';
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 @Component({
   selector: 'app-paciente',
-  imports: [HeaderComponent, FooterComponent, ReactiveFormsModule, RecaptchaModule],
+  imports: [HeaderComponent, FooterComponent, ReactiveFormsModule, NgxCaptchaModule],
   templateUrl: './paciente.component.html',
   styleUrl: './paciente.component.css'
 })
@@ -26,7 +26,8 @@ export class PacienteComponent {
     obra_social: ['', Validators.required],
     foto_1: ['', Validators.required],
     foto_2: ['', Validators.required],
-    password: ['', [Validators.required, Validators.minLength(6)]]
+    password: ['', [Validators.required, Validators.minLength(6)]],
+    recaptcha: ['', Validators.required]
   });
 
   async registrarPaciente() {
@@ -53,27 +54,6 @@ export class PacienteComponent {
     }
   }
 
-  captchaResuelto: boolean = false;
-
-verificarCaptcha() {
-  if (this.captchaResuelto) {
-    this.registrarPaciente();
-  }else{
-    Swal.fire({
-        title: "Error!",
-        text: "Tenes que verificar el captcha",
-        icon: "error",
-        confirmButtonText: 'Entendido',
-        scrollbarPadding: false
-      })
-  }
-}
-
-onCaptchaResuelto(token: string | null) {
-  if (token) {
-    this.captchaResuelto = true;
-
-  }
-}
+ 
 
 }
