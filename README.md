@@ -39,19 +39,19 @@ Luego de esto, puede ser atendido, y responder un cuestionario sobre la atencion
 
 ### Ingreso 🏥
 
-![mi imagen](https://imgur.com/tSBMYtH)
+![login_clinica](https://github.com/Tomizampella/Tomas-Diaz-Zampella-Clinica-Online-2025/blob/main/imagenes_readme/login_clinica.png?raw=true)
 
 ### Registro ➕
 
-![mi imagen](https://imgur.com/3AfQhLu)
+![mi imagen](https://github.com/Tomizampella/Tomas-Diaz-Zampella-Clinica-Online-2025/blob/main/imagenes_readme/registro.png?raw=true)
 
 ### Registro paciente ➕
 
-![mi imagen](https://imgur.com/IYxvd7K)
+![mi imagen](https://github.com/Tomizampella/Tomas-Diaz-Zampella-Clinica-Online-2025/blob/main/imagenes_readme/registro_paciente.png?raw=true)
 
 ### Registro Especialista ➕
 
-![mi imagen](https://imgur.com/CazAcjg)
+![mi imagen](https://github.com/Tomizampella/Tomas-Diaz-Zampella-Clinica-Online-2025/blob/main/imagenes_readme/registro_especialista.png?raw=true)
 
 ### Reportes y graficos (pendiente)
 
@@ -62,7 +62,7 @@ Luego de esto, puede ser atendido, y responder un cuestionario sobre la atencion
 
 _El sistema esta deployado en Vercel, y se deja el link para poder ingresar a el_
 ```
-💥 link al deploy [tomas-diaz-zampella-clinica-online.vercel.app](https://tomas-diaz-zampella-clinica-online.vercel.app/)
+https://tomas-diaz-zampella-clinica-online.vercel.app/
 ```
 
 
