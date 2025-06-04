@@ -1,0 +1,57 @@
+<app-header></app-header>
+
+<div class="registro-container">
+  <div class="lado izquierdo">
+    <div class="contenido-registro text-center">
+      <form [formGroup]="loginForm" (ngSubmit)="loguearse()" class="w-100 text-center needs-validation"
+        style="max-width: 300px;" novalidate>
+
+        <h1 class="mb-3 fw-bold">Iniciar sesión</h1>
+
+        <!-- EMAIL -->
+        <div class="position-relative mb-3">
+          <input type="email" formControlName="email" class="form-control"
+            [class.is-invalid]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid" placeholder="Email"
+            required />
+          <div class="invalid-tooltip">
+            {{ loginForm.get('email')?.hasError('required') ? 'El email es obligatorio' : 'Formato de email inválido' }}
+          </div>
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="position-relative mb-3">
+          <input type="password" formControlName="password" class="form-control"
+            [class.is-invalid]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+            placeholder="Password" required />
+          <div class="invalid-tooltip">
+            La contraseña es obligatoria
+          </div>
+        </div>
+
+        <button class="btn btn-primary w-100 mb-3" type="submit" [disabled]="loginForm.invalid">Ingresar</button>
+
+        <!-- ACCESOS RÁPIDOS -->
+         <h5 class="fw-bold text-secondary mb-3">Accesos rápidos</h5>
+        <div class="social-container mb-3">
+          <a class="social" (click)="autocompletar('Ortega@gmail.com', '123456')" style="background-image: url('favicon.ico');"></a>
+          <a class="social" (click)="autocompletar('Ortega@gmail.com', '123456')" style="background-image: url('/login/login_derecha.png');"></a>
+          <a class="social" (click)="autocompletar('Ortega@gmail.com', '123456')" style="background-image: url('/login/login_derecha.png');"></a>
+          <a class="social" (click)="autocompletar('Ortega@gmail.com', '123456')" style="background-image: url('/login/login_derecha.png');"></a>
+          <a class="social" (click)="autocompletar('Ortega@gmail.com', '123456')" style="background-image: url('/login/login_derecha.png');"></a>
+          <a class="social" (click)="autocompletar('Ortega@gmail.com', '123456')" style="background-image: url('/login/login_derecha.png');"></a>
+        </div>
+
+        
+        
+      </form>
+    </div>
+  </div>
+  <div class="lado derecho">
+    <div class="contenido-registro texto text-center">
+        <h1>Bienvenido a Clínica San Martín</h1>
+        <h5>Agendá tus turnos, accedé a tus resultados y gestioná tu grupo familiar desde el portal de la Clínica Online.</h5>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

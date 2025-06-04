@@ -1,0 +1,138 @@
+<app-header></app-header>
+
+<div class="registro-container">
+    <div class="lado izquierdo">
+        <div class="contenido-registro text-center">
+            
+            <!-- Especialidades-->
+            <div class="mb-3">
+                <h1 class="mb-3 fw-bold">Crear cuenta</h1>
+                <label class="form-label">Especialidades</label>
+
+                <!-- Select múltiple -->
+                <select multiple class="form-select" [ngModel]="especialidadesSeleccionadas"
+                    (ngModelChange)="actualizarEspecialidades($event)">
+                    <option *ngFor="let esp of especialidadesPredefinidas" [value]="esp">{{ esp }}</option>
+                </select>
+                <div class="form-text">Podés seleccionar más de una dejando pulsado Ctrl.</div>
+
+                <!-- Input para especialidad personalizada -->
+                    <div class="position-relative">
+                    <input type="text"
+                            class="form-control mt-2"
+                            placeholder="Agregar nueva especialidad"
+                            [(ngModel)]="nuevaEspecialidad"
+                            (keyup.enter)="agregarEspecialidad()"
+                            [class.is-invalid]="especialidadInvalida">
+
+                    <div class="invalid-tooltip" *ngIf="especialidadInvalida">
+                        Solo se permiten letras
+                    </div>
+                    </div>
+
+
+                <!-- Especialidades agregadas -->
+                <div class="mt-2">
+                    <span *ngFor="let esp of especialidadesSeleccionadas" class="badge bg-primary me-1">
+                        {{ esp }}
+                        <button type="button" class="btn-close btn-close-white ms-1" aria-label="Eliminar"
+                            (click)="eliminarEspecialidad(esp)"></button>
+                    </span>
+                </div>
+            </div>
+            <form [formGroup]="registroForm"
+                class="form-grid w-100 text-center needs-validation" novalidate>
+
+                <div class="form-row">
+                    <!-- NOMBRE -->
+                    <div class="position-relative">
+                        <input type="text" placeholder="Nombre" class="form-control" formControlName="nombre"
+                            [class.is-invalid]="registroForm.get('nombre')?.touched && registroForm.get('nombre')?.invalid">
+                        <div class="invalid-tooltip">El nombre es obligatorio</div>
+                    </div>
+                    <!-- APELLIDO -->
+                    <div class="position-relative">
+                        <input type="text" placeholder="Apellido" class="form-control" formControlName="apellido"
+                            [class.is-invalid]="registroForm.get('apellido')?.touched && registroForm.get('apellido')?.invalid">
+                        <div class="invalid-tooltip">El apellido es obligatorio</div>
+                    </div>
+                </div>
+
+                <!-- Fila 3: edad, dni-->
+                <div class="form-row">
+                    <!-- EDAD -->
+                    <div class="position-relative">
+                        <input type="text" placeholder="Edad" class="form-control" formControlName="edad"
+                            [class.is-invalid]="registroForm.get('edad')?.touched && registroForm.get('edad')?.invalid">
+                        <div class="invalid-tooltip">
+                            {{ registroForm.get('edad')?.hasError('required') ? 'La edad es obligatoria' : 'Debe ser un número'}}
+                        </div>
+                    </div>
+                    <!-- DNI -->
+                    <div class="position-relative">
+                        <input type="text" placeholder="Dni" class="form-control" formControlName="dni"
+                            [class.is-invalid]="registroForm.get('dni')?.touched && registroForm.get('dni')?.invalid">
+                        <div class="invalid-tooltip">
+                            {{ registroForm.get('dni')?.hasError('required') ? 'El dni es obligatorio' : 'Debe ser un número'}}
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-row">
+                    <!-- EMAIL -->
+                    <div class="position-relative">
+                        <input type="email" placeholder="Email" class="form-control" formControlName="email"
+                            [class.is-invalid]="registroForm.get('email')?.touched && registroForm.get('email')?.invalid">
+                        <div class="invalid-tooltip">
+                            {{ registroForm.get('email')?.hasError('required') ? 'El email es obligatorio' : 'Formato de email inválido'}}
+                        </div>
+                    </div>
+                    <!-- PASSWORD -->
+                    <div class="position-relative">
+                        <input type="password" placeholder="Contraseña" class="form-control" formControlName="password"
+                            [class.is-invalid]="registroForm.get('password')?.touched && registroForm.get('password')?.invalid">
+                        <div class="invalid-tooltip">
+                            {{ registroForm.get('password')?.hasError('required') ? 'La contraseña es obligatoria' :
+                            'Debe tener al menos 6 caracteres' }}
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Foto 1-->
+                <div class="position-relative mb-2">
+                    <div class="input-group">
+                        <label class="input-group-text" for="foto_1">Foto</label>
+                        <input type="file" (change)="onArchivoSelecionado($event)" placeholder="Foto 1" class="form-control" formControlName="foto_1"
+                            id="foto_1"
+                            [class.is-invalid]="registroForm.get('foto_1')?.touched && registroForm.get('foto_1')?.invalid">
+                        <div class="invalid-tooltip">La Foto 1 es obligatoria</div>
+                    </div>
+                </div>
+
+
+                <button class="btn btn-primary w-100 mb-3" type="submit" (click)="verificarCaptcha()"
+                    [disabled]="registroForm.invalid">Registrarse</button>
+
+                <!-- Captcha -->
+                <div class="mt-3 d-flex justify-content-center">
+                    <re-captcha
+                        (resolved)="onCaptchaResuelto($event)"
+                        siteKey="6LcJQlUrAAAAABwojin_xgCRSm9bQDi5ODU5sq5E">
+                    </re-captcha>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="lado derecho">
+        <div class="texto text-center">
+            <h1>Bienvenido a Clínica San Martín</h1>
+            <h5>Agendá tus turnos, accedé a tus resultados y gestioná tu grupo familiar desde el portal de la Clínica
+                Online.</h5>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>
