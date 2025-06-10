@@ -29,6 +29,15 @@ export class DatabaseService {
       console.error('Error al agregar especialista a la base de datos:', error.message);
     }
     }
+
+    async agregarAdministrador(email: string, nombre: string, apellido: string, edad: number, dni:string, 
+    rol:string, foto_1:string,aprobacion_admin:boolean = true) 
+    {
+    const { data, error } = await this.tablaUsuarios.insert({ email, nombre, apellido, edad, dni, rol,foto_1, aprobacion_admin});
+    if (error) {
+      console.error('Error al agregar administrador a la base de datos:', error.message);
+    }
+    }
     
 
     //subo la foto al supabase storage

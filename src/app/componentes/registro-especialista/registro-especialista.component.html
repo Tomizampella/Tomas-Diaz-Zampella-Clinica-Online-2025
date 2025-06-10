@@ -2,7 +2,7 @@
             
             <!-- Especialidades-->
             <div class="mb-3">
-                <h1 class="mb-3 fw-bold">Crear cuenta</h1>
+                <h1 class="mb-3 fw-bold">Crear cuenta especialista</h1>
                 <label class="form-label">Especialidades</label>
 
                 <!-- Select múltiple -->
@@ -107,13 +107,15 @@
                     </div>
                 </div>
 
+                <div class="form-row">
+                    <button class="btn btn-primary w-100 mb-3" type="submit"
+                        [disabled]="registroForm.invalid">Registrarse</button>
+    
+                    <!-- Captcha -->
+                    <div class="d-flex justify-content-center">
+                        <ngx-recaptcha2 [siteKey]="'6LcJQlUrAAAAABwojin_xgCRSm9bQDi5ODU5sq5E'" [useGlobalDomain]="false" formControlName="recaptcha"></ngx-recaptcha2>
+                    </div>
 
-                <button class="btn btn-primary w-100 mb-3" type="submit"
-                    [disabled]="registroForm.invalid">Registrarse</button>
-
-                <!-- Captcha -->
-                <div class="mt-3 d-flex justify-content-center">
-                    <ngx-recaptcha2 [siteKey]="'6LcJQlUrAAAAABwojin_xgCRSm9bQDi5ODU5sq5E'" [useGlobalDomain]="false" formControlName="recaptcha"></ngx-recaptcha2>
                 </div>
 
             </form>

@@ -1,0 +1,25 @@
+<div class="registro-container" *ngIf="modo === 'ninguno'">
+  <div class="lado izquierdo">
+    <div class="contenido-registro text-center" (click)="mostrarPaciente()">
+      <img src="registro/paciente.png" alt="Paciente" class="imagen-registro"/>
+      <div class="label-registro text-dark">Paciente</div>
+    </div>
+  </div>
+  <div class="lado derecho">
+    <div class="contenido-registro text-center" (click)="mostrarEspecialista()">
+      <img src="registro/especialista.png" alt="Especialista" class="imagen-registro"/>
+      <div class="label-registro text-light">Especialista</div>
+    </div>
+  </div>
+</div>
+
+<!-- Mostrar componente dinámicamente -->
+ <div class="componente-container" *ngIf="modo === 'paciente'">
+     <app-registro-paciente></app-registro-paciente>
+ </div>
+<app-registro-especialista *ngIf="modo === 'especialista'"></app-registro-especialista>
+
+<!-- Botón de volver (opcional) -->
+<div class="text-center mt-4" *ngIf="modo !== 'ninguno'">
+  <button class="btn btn-secondary" (click)="volver()">Volver</button>
+</div>

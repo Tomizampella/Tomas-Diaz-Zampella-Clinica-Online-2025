@@ -1,0 +1,32 @@
+<app-header></app-header>
+
+<div class="registro-container">
+  <!-- Sidebar -->
+  <nav class="sidebar bg-light p-3">
+    <h5 class="mb-4">Administración</h5>
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link active" href="#">Listado usuarios</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Administrar especialistas</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"  routerLink="agregar-usuario" >Registrar usuarios</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="agregar-admin">Agregar administrador</a>
+      </li>
+       <li class="nav-item">
+        <a class="nav-link" href="#">Turnos</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Contenido principal -->
+  <div class="contenido flex-grow-1 p-4 overflow-auto">
+    <router-outlet/>
+  </div>
+</div>
+
+<app-footer></app-footer>

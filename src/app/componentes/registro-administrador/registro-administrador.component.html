@@ -1,8 +1,8 @@
 <div class="text-center">
-            <form [formGroup]="registroForm" (ngSubmit)="registrarPaciente()"
+            <form [formGroup]="registroForm" (ngSubmit)="registrarAdministrador()"
                 class="form-grid w-100 text-center needs-validation"  novalidate>
 
-                <h1 class="mb-3 fw-bold">Crear cuenta paciente</h1>
+                <h1 class="mb-3 fw-bold">Crear cuenta administrador</h1>
 
                 <div class="form-row">
                     <!-- NOMBRE -->
@@ -20,7 +20,7 @@
                 </div>
 
                   <!-- Fila 3: edad, dni, obra social -->
-                <div class="form-row form-row-3">
+                <div class="form-row">
                     <!-- EDAD -->
                      <div class="position-relative">
                          <input type="text" placeholder="Edad" class="form-control" formControlName="edad"
@@ -37,12 +37,6 @@
                             {{ registroForm.get('dni')?.hasError('required') ? 'El dni es obligatorio' : 'Debe ser un número'}}
                         </div>
                     </div>
-                    <!-- OBRA SOCIAL-->
-                     <div class="position-relative">
-                         <input type="text" placeholder="Obra social" class="form-control" formControlName="obra_social"
-                             [class.is-invalid]="registroForm.get('obra_social')?.touched && registroForm.get('obra_social')?.invalid">
-                         <div class="invalid-tooltip">La obra social es obligatoria</div>
-                     </div>
                 </div>
 
 
@@ -70,23 +64,14 @@
                 <!-- Foto 1-->
                 <div class="position-relative mb-2">
                     <div class="input-group">
-                        <label class="input-group-text" for="foto_1">Foto 1</label>
-                        <input type="file" (change)="onArchivoSelecionado($event, 'foto_1')" placeholder="Foto 1" class="form-control" formControlName="foto_1" id="foto_1"
+                        <label class="input-group-text" for="foto_1">Foto</label>
+                        <input type="file" (change)="onArchivoSelecionado($event)" placeholder="Foto 1" class="form-control" formControlName="foto_1"
+                            id="foto_1"
                             [class.is-invalid]="registroForm.get('foto_1')?.touched && registroForm.get('foto_1')?.invalid">
                         <div class="invalid-tooltip">La Foto 1 es obligatoria</div>
                     </div>
                 </div>
 
-                <!-- Foto 2-->
-                <div class="position-relative mb-2">
-                    <div class="input-group">
-                        <label class="input-group-text" for="foto_2">Foto 2</label>
-                        <input type="file" (change)="onArchivoSelecionado($event, 'foto_2')" placeholder="Foto 2" class="form-control" formControlName="foto_2" id="foto_2"
-                            [class.is-invalid]="registroForm.get('foto_2')?.touched && registroForm.get('foto_2')?.invalid">
-                        <div class="invalid-tooltip">La Foto 2 es obligatoria</div>
-                    </div>
-
-                </div>
                 <div class="form-row">
                     <button class="btn btn-primary w-100 mb-3" type="submit"
                         [disabled]="registroForm.invalid">Registrarse</button>

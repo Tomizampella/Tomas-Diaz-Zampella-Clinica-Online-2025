@@ -1,0 +1,67 @@
+/* Estilo raíz del componente */
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Contenedor principal entre header y footer */
+.registro-container {
+  flex: 1 1 auto;
+  display: flex;
+  overflow: hidden;
+}
+
+/* Laterales izquierdo y derecho */
+.lado {
+  flex: 1 1 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.componente-container{
+  overflow-y: auto;
+  height: 100%;
+  width: 100%;
+}
+
+.izquierdo {
+  background-color: #ffffff;
+}
+
+.derecho {
+  background-color: #015761;
+  color: #fff;
+}
+
+/* boton */
+.contenido-registro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.imagen-registro {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #ccc;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.imagen-registro:hover {
+  transform: scale(1.05);
+}
+
+.label-registro {
+  margin-top: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
