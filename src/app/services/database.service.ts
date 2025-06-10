@@ -51,4 +51,19 @@ export class DatabaseService {
   return url.data.publicUrl;
 }
 
+async verificarAprobacionAdmin(correo: string): Promise<boolean> {
+  const { data, error } = await this.tablaUsuarios
+    .select("aprobacion_admin")
+    .eq("email", correo)
+    .single(); // esperamos un solo resultado
+
+  if (error) {
+    console.error("Error al verificar aprobación del admin:", error.message);
+    return false;
+  }
+
+  return data?.aprobacion_admin === true;
+}
+
+
 }

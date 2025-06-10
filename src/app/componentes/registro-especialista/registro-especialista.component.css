@@ -1,0 +1,56 @@
+/* Estilo raíz del componente */
+:host {
+  display: block;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+
+
+.contenido-registro {
+  overflow-y: auto;
+  height: 100%;
+  width: 100%;
+}
+
+
+
+.btn-primary{
+    background-color: #015761;
+}
+
+
+
+/* fomulario */
+
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+  gap: 1rem;
+}
+
+.form-row-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas */
+  gap: 1rem;
+}
+
+.form-row input,
+.form-row .input-group {
+  width: 100%;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+}
+
+
