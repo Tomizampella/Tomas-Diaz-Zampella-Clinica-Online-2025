@@ -17,6 +17,7 @@ export class AuthService {
   usuarioActual: User | null = null;
   primerInicio: boolean = false;
   isSesionVerificada: boolean = false;
+  rolUsuario: string = '';
   constructor() {
     // Verificar sesión actual (por si se refresca la página y ya estaba logueado)
     this.sb.supabase.auth.getSession().then(({ data }) => {
@@ -28,7 +29,7 @@ export class AuthService {
 
         if (this.idUsuario === 0) {
           this.db.tablaUsuarios
-            .select('id')
+            .select('id, rol')
             .eq('email', this.usuarioActual.email)
             .single()
             .then(({ data, error }) => {
@@ -38,6 +39,8 @@ export class AuthService {
               }
 
               this.idUsuario = data.id;
+              this.rolUsuario = data.rol;
+              console.log(`rol desde verificador de sesion: ${this.rolUsuario}`)
             });
         }
       }
@@ -57,7 +60,7 @@ export class AuthService {
         this.usuarioActual = session.user;
 
         if (event === 'SIGNED_IN' && !this.primerInicio) {
-          this.router.navigateByUrl('/home');
+          this.router.navigateByUrl('/seccion-usuarios');
           this.primerInicio = true;
         }
 
@@ -65,7 +68,7 @@ export class AuthService {
 
         if (this.idUsuario === 0) {
           this.db.tablaUsuarios
-            .select('id')
+            .select('id, rol')
             .eq('email', this.usuarioActual.email)
             .single()
             .then(({ data, error }) => {
@@ -75,6 +78,8 @@ export class AuthService {
               }
 
               this.idUsuario = data.id;
+              this.rolUsuario = data.rol;
+              console.log(`rol desde verificador de SIGNED_IN: ${this.rolUsuario}`)
             });
         }
       }
