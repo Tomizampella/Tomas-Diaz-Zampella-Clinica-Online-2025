@@ -1,0 +1,12 @@
+:host {
+  display: block;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+
+.btn-primary, .bg-azul{
+    background-color: #015761;
+}

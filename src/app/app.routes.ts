@@ -43,6 +43,14 @@ export const routes: Routes = [
             {
                 path: 'agregar-usuario',
                 loadComponent: () => import('./componentes/registro-eleccion/registro-eleccion.component')
+            },
+            {
+                path: 'listado-usuarios',
+                loadComponent: () => import('./componentes/listado-usuarios/listado-usuarios.component')
+            },
+            {
+                path: 'administrar-especialistas',
+                loadComponent: () => import('./componentes/administrar-especialistas/administrar-especialistas.component')
             }
         ]
     }

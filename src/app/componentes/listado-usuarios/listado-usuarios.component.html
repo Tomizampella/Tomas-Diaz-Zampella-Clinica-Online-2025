@@ -1,0 +1,109 @@
+<!-- Contenedor principal -->
+<div class="container d-flex justify-content-center">
+  <div class="row-custom-width chat-box shadow-custom rounded overflow-hidden d-flex flex-column" style="max-width: 800px; height: 400px;">
+
+    <!-- Header -->
+<div class="p-1 bg-azul text-white d-flex justify-content-between align-items-center">
+  <strong class="ms-2">Listado usuarios</strong>
+  @if (rolSeleccionado === 'todos') {
+    <button class="btn btn-success me-2" (click)="descargarExcel()">Exportar Excel</button>
+  }
+</div>
+
+    <!-- Tabla dinámica -->
+    <div class="flex-grow-1 overflow-auto p-4" style="background-color: #f8f9fa;">
+      
+      @if (rolSeleccionado === 'paciente') {
+        <table class="table table-sm table-striped table-bordered">
+          <thead>
+            <tr><th>Nombre</th><th>Apellido</th><th>Dni</th><th>Edad</th><th>Obra social</th><th>Foto 1</th><th>Foto 2</th></tr>
+          </thead>
+          <tbody>
+            @for (item of estadisticasPorRol['paciente']; track item.usuario) {
+              <tr>
+                <td>{{ item.nombre }}</td>
+                <td>{{ item.apellido }}</td>
+                <td>{{ item.dni }}</td>
+                <td>{{ item.edad }}</td>
+                <td>{{ item.obra_social }}</td>
+                <td> <img src="{{ item.foto_1 }}" alt="foto 1 paciente" style="width: 40px; height: 40px;"></td>
+                <td> <img src="{{ item.foto_2 }}" alt="foto 2 paciente" style="width: 40px; height: 40px;"></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else if (rolSeleccionado === 'especialista') {
+        <table class="table table-sm table-striped table-bordered">
+          <thead>
+            <tr><th>Nombre</th><th>Apellido</th><th>Dni</th><th>Edad</th><th>Especialidades</th><th>Foto 1</th></tr>
+          </thead>
+          <tbody>
+            @for (item of estadisticasPorRol['especialista']; track item.usuario) {
+              <tr>
+                <td>{{ item.nombre }}</td>
+                <td>{{ item.apellido }}</td>
+                <td>{{ item.dni }}</td>
+                <td>{{ item.edad }}</td>
+                <td>{{ item.especialidades }}</td>
+                <td> <img src="{{ item.foto_1 }}" alt="foto 1 especialista" style="width: 40px; height: 40px;"></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else if (rolSeleccionado === 'administrador') {
+        <table class="table table-sm table-striped table-bordered">
+          <thead>
+            <tr><th>Nombre</th><th>Apellido</th><th>Dni</th><th>Edad</th><th>Foto 1</th></tr>
+          </thead>
+          <tbody>
+            @for (item of estadisticasPorRol['administrador']; track item.usuario) {
+              <tr>
+                <td>{{ item.nombre }}</td>
+                <td>{{ item.apellido }}</td>
+                <td>{{ item.dni }}</td>
+                <td>{{ item.edad }}</td>
+                <td> <img src="{{ item.foto_1 }}" alt="foto 1 administrador" style="width: 40px; height: 40px;"></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else if (rolSeleccionado === 'todos') {
+        <table class="table table-sm table-striped table-bordered">
+          <thead>
+            <tr><th>Nombre</th><th>Apellido</th><th>Dni</th><th>Edad</th><th>Correo</th><th>Rol</th><th>Foto 1</th><th>Foto 2</th></tr>
+          </thead>
+          <tbody>
+            @for (item of estadisticasPorRol['todos']; track item.usuario) {
+              <tr>
+                <td>{{ item.nombre }}</td>
+                <td>{{ item.apellido }}</td>
+                <td>{{ item.dni }}</td>
+                <td>{{ item.edad }}</td>
+                <td>{{ item.email }}</td>
+                <td>{{ item.rol }}</td>
+                <td> <img src="{{ item.foto_1 }}" alt="foto 1 usuario" style="width: 40px; height: 40px;"></td>
+                <td>
+                    @if(item.rol === 'paciente'){
+                        <img src="{{ item.foto_2 }}" alt="foto 2 usuario" style="width: 40px; height: 40px;">
+                    }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }@else {
+        <div class="text-center text-muted">Seleccioná un rol para ver el listado.</div>
+      }
+
+    </div>
+
+    <!-- Botones -->
+    <div class="p-4 border-top d-flex align-items-center gap-2 justify-content-center" style="background-color: #ffffff;">
+      <button class="btn btn-primary" (click)="cargarTabla('paciente')">Paciente</button>
+      <button class="btn btn-primary" (click)="cargarTabla('especialista')">Especialista</button>
+      <button class="btn btn-primary" (click)="cargarTabla('administrador')">Administrador</button>
+      <button class="btn btn-primary" (click)="cargarTabla('todos')">Todos</button>
+    </div>
+
+  </div>
+</div>

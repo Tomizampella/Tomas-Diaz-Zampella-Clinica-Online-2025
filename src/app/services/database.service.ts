@@ -74,5 +74,28 @@ async verificarAprobacionAdmin(correo: string): Promise<boolean> {
   return data?.aprobacion_admin === true;
 }
 
+async traerTodosLosUsuarios() {
+    const { data, error } = await this.tablaUsuarios.select("*");
+    if (error) {
+      console.error('Error al solicitar todos los usuarios:', error.message);
+    }
+    return data as any[];
+  }
+
+  async traerTodosLosEspecialistas() {
+    const { data, error } = await this.tablaUsuarios.select("*").eq("rol", "especialista");
+    if (error) {
+      console.error('Error al solicitar todos los especialistas:', error.message);
+    }
+    return data as any[];
+  }
+
+  async cambiarEstadoEspecialista(id_usuario:string, habilitar:boolean = false){
+    const { data, error } = await this.tablaUsuarios.update({ aprobacion_admin: habilitar }).eq("id", id_usuario)
+    if (error) {
+      console.error('Error al cambiar estadodel especialista:', error.message);
+    }
+  }
+
 
 }
