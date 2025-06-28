@@ -1,1 +1,68 @@
-<p>solicitar-turno works!</p>
+<div class="container d-flex justify-content-center">
+    <div class="row-custom-width chat-box shadow-custom rounded overflow-hidden d-flex flex-column"
+        style="max-width: 100%; height: 400px;">
+        <!-- Header -->
+        <div class="p-1 bg-azul text-white d-flex justify-content-between align-items-center">
+            <strong class="ms-2">Solicitar turno</strong>
+        </div>
+        <!-- Contenido -->
+  <div class="flex-grow-1 overflow-hidden p-4 d-flex flex-column align-items-center justify-content-center"
+       style="background-color: #f8f9fa;">
+
+       <div class="solicitar-turno h-100 d-flex flex-column">
+   
+           <!-- 1. Especialidades -->
+           <div class="row flex-shrink-0 especialidades-row mb-3">
+               <div class="d-flex flex-wrap gap-2 justify-content-center">
+                   <button *ngFor="let esp of especialidades" type="button" class="btn btn-light btn-circle"
+                       (click)="selectEspecialidad(esp)" [class.active]="esp.id === selectedEsp?.id">
+                       <img class="imagen-circle" [src]="esp.foto || 'home/iconos/especialidad_default.png'"
+                           alt="{{esp.nombre}}">
+                   </button>
+               </div>
+           </div>
+   
+           <!-- 2. Profesionales -->
+           <div class="row flex-shrink-0 profesionales-row mb-3" *ngIf="selectedEsp">
+               <div class="d-flex flex-wrap gap-2 justify-content-center">
+                   <div *ngFor="let prof of profesionales">
+                       <button type="button" class="btn btn-light btn-circle" (click)="selectProfesional(prof)"
+                           [class.active]="prof.id === selectedProf?.id">
+                           <img class="imagen-circle" [src]="prof.foto_1" alt="{{prof.nombre}}">
+                       </button>
+                       <div class="mt-1 small text-center">{{ prof.nombre }}</div>
+                   </div>
+               </div>
+           </div>
+   
+           <!-- 3. Días disponibles -->
+           <div class="row flex-shrink-0 dias-row" *ngIf="selectedProf">
+               <div class="d-flex flex-wrap gap-2 justify-content-center">
+                   <button *ngFor="let dia of diasDisponibles" type="button" class="btn btn-outline-primary btn-dia"
+                       (click)="selectDia(dia)" [class.active]="dia.fecha === selectedDia?.fecha">
+                       {{ dia.fecha | date:'dd/MM' }}
+                   </button>
+               </div>
+           </div>
+   
+           <!-- 4. Horarios -->
+           <div class="row flex-grow-1 horarios-row" *ngIf="selectedDia">
+               <div class="d-flex flex-wrap gap-2 justify-content-center">
+                   <button *ngFor="let h of horariosDisponibles" type="button" class="btn btn-outline-primary btn-horario"
+                       (click)="selectHorario(h)" [class.active]="h === selectedHorario">
+                       {{ h | lowercase }}
+                   </button>
+               </div>
+           </div>
+   
+           <!-- Botón Guardar -->
+    <div class="w-100 ">
+      <button class="btn btn-primary w-100"
+              [disabled]="!canGuardar()"
+              (click)="reservarTurno()">
+        Guardar
+      </button>
+    </div>
+   
+       </div>
+    </div>

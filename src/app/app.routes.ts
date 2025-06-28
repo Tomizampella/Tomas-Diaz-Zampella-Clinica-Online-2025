@@ -65,6 +65,10 @@ export const routes: Routes = [
             {
                 path: 'solicitar-turno',
                 loadComponent: () => import('./componentes/solicitar-turno/solicitar-turno.component')
+            },
+            {
+                path: 'mi-perfil',
+                loadComponent: () => import('./componentes/mi-perfil/mi-perfil.component')
             }
         ]
     },

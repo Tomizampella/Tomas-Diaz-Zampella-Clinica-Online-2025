@@ -1,0 +1,102 @@
+:host {
+  display: block;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+
+.btn-primary, .bg-azul{
+    background-color: #015761;
+}
+
+
+/* Altura total dividida en 4 filas */
+/* .solicitar-turno { height: 100%; } */
+/* .especialidades-row { height: 30%; }
+.profesionales-row  { height: 30%; }
+.dias-row           { height: 10%; }
+.horarios-row       { height: 10%; } */
+
+/* Botón circular */
+.btn-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #019dbb;
+}
+/* .btn-circle img {
+  width: 100%;
+  height: 100%;
+  padding: 2px;
+  object-fit: cover;
+  border: 4px solid #ccc;
+  transition: transform 0.2s ease;
+} */
+
+.imagen-circle {
+  width: 90%;
+  height: 90%;
+  padding: 2px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #ccc;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.imagen-circle:hover {
+  transform: scale(1.05);
+  border: 4px solid #015761;
+}
+
+/* Active state */
+.btn-circle.active,
+.btn-outline-primary.active,
+.btn-outline-secondary.active {
+  background-color: #015761;
+  color: #fff;
+  border-color: #015761;
+}
+
+
+/* Dia y hora */
+
+.btn-dia{
+    width: 60px;
+    border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.btn-horario{
+    border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+/* Borde y texto del outline */
+.btn-outline-primary {
+  border-color: #015761 !important;
+  color: #015761 !important;
+}
+
+/* Hover: fondo más claro y texto blanco */
+.btn-outline-primary:hover {
+  background-color: #027d8c !important; /* un cyan tirando a claro */
+  border-color:  #027d8c !important;
+  color: #fff !important;
+}
+
+/* Active (cuando está seleccionado) */
+.btn-outline-primary.active,
+.btn-outline-primary:active {
+  background-color: #015761 !important;
+  border-color:     #015761 !important;
+  color:            #fff !important;
+}

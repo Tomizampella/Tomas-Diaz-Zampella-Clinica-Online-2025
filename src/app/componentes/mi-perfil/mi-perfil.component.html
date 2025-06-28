@@ -3,7 +3,7 @@
   <div *ngIf="modo === 'perfil'"
     class="row-custom-width chat-box shadow-custom rounded overflow-hidden d-flex flex-column"
     style="width: 400px; height: 400px;">
-  <div *ngIf="objUsuario">
+  <div *ngIf="objUsuario" class="h-100">
     <!-- Header -->
     <div class="p-1 bg-azul text-white d-flex justify-content-between align-items-center">
       <strong class="ms-2">Mi perfil</strong>
@@ -12,11 +12,11 @@
     </div>
 
     <!-- Contenido -->
-    <div class="flex-grow-1 overflow-hidden p-4 d-flex flex-column align-items-center justify-content-center"
+    <div class="flex-grow-1 overflow-hidden p-4 d-flex flex-column align-items-center justify-content-center h-100"
       style="background-color: #f8f9fa;">
 
       <!-- Foto Paciente -->
-      <div *ngIf="objUsuario.rol === 'paciente'" class="mb-3">
+      <div *ngIf="objUsuario.rol === 'paciente'" class="mb-3 ">
         <div id="carouselExampleIndicators" class="carousel slide custom-carousel mx-auto">
           <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
@@ -46,12 +46,12 @@
       </div>
 
       <!-- Foto Especialista -->
-      <div *ngIf="objUsuario.rol === 'especialista'" class="mb-3 text-center">
+      <div *ngIf="objUsuario.rol === 'especialista'" class="mb-3 text-center h-100">
         <img [src]="objUsuario.foto_1" alt="foto especialista" class="foto-especialista mx-auto d-block">
       </div>
 
       <!-- Datos del usuario -->
-      <div class="text-center">
+      <div class="text-center h-100">
         <p><strong>{{ objUsuario.nombre }} {{ objUsuario.apellido }}</strong></p>
         <p class="text-muted small">Edad: {{ objUsuario.edad }} | DNI: {{ objUsuario.dni }} | {{ objUsuario.email }}</p>
       </div>

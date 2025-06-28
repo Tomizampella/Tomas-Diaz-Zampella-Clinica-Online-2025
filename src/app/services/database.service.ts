@@ -1,6 +1,7 @@
 import { Injectable, inject} from '@angular/core';
 import { SupabaseService } from './supabase.service';
 import Swal from 'sweetalert2';
+import { Especialidad, Disponibilidad, TurnoEntry, Usuario } from '../interfaces/turnos.model';
 
 @Injectable({
   providedIn: 'root'
@@ -128,35 +129,90 @@ async guardarDisponibilidad(entry: {
 }) {
   const { data, error } = await this.sb.supabase
     .from('disponibilidad_especialistas')
-    .insert(entry);
+    .upsert([entry], {
+      onConflict: 'usuario_id,especialidad,dia_semana'
+    });
 
   if (error) {
-    if (error.code === '23505') {
-      // Violación de constraint única
-      Swal.fire({
-        title: "Importante",
-        text: "¡Ya se guardó esta disponibilidad horaria anteriormente!",
-        icon: "info",
-        confirmButtonText: "Entendido",
-        scrollbarPadding: false
-      });
-    } else {
-      // Otro error no esperado
-      console.error("Error inesperado al guardar:", error.message);
-      Swal.fire({
-        title: "Error",
-        text: "Ocurrió un problema al guardar la disponibilidad.",
-        icon: "error",
-        confirmButtonText: "Ok",
-        scrollbarPadding: false
-      });
-    }
+    console.error("Error al guardar disponibilidad:", error.message);
+    Swal.fire({
+      title: "Error",
+      text: "Ocurrió un problema al guardar la disponibilidad.",
+      icon: "error",
+      confirmButtonText: "Ok",
+      scrollbarPadding: false
+    });
     return null;
   }
+
+  Swal.fire({
+    title: "Éxito",
+    text: "Datos actualizados correctamente.",
+    icon: "success",
+    confirmButtonText: "OK",
+    scrollbarPadding: false
+  });
 
   return data;
 }
 
 
+ // 1. Todas las especialidades
+  async getEspecialidades(): Promise<Especialidad[]> {
+    const { data, error } = await this.sb.supabase
+      .from('especialidades')
+      .select('*');
+    if (error) {
+      console.error('Error getEspecialidades:', error.message);
+      return [];
+    }
+    return data;
+  }
+
+  // 2. Profesionales que tengan en su campo text[] la especialidad dada
+  async getProfesionalesPorEspecialidad(especialidad: string): Promise<Usuario[]> {
+    const { data, error } = await this.sb.supabase
+      .from('usuarios_clinica')
+      .select('id, nombre, foto_1, especialidades')
+      .eq('rol', 'especialista')
+      // operador "cs" (contains) para text[]
+      .contains('especialidades', [especialidad]);
+    if (error) {
+      console.error('Error getProfesionalesPorEspecialidad:', error.message);
+      return [];
+    }
+    return data;
+  }
+
+  // 3. Disponibilidad de un especialista para una especialidad dada
+  async getDisponibilidad(usuarioId: string, especialidad: string): Promise<Disponibilidad[]> {
+    const { data, error } = await this.sb.supabase
+      .from('disponibilidad_especialistas')
+      .select('*')
+      .eq('usuario_id', usuarioId)
+      .eq('especialidad', especialidad);
+    if (error) {
+      console.error('Error getDisponibilidad:', error.message);
+      return [];
+    }
+    return data;
+  }
+
+  // 4. Crear un turno (insert + UNIQUE constraint evita duplicados)
+  async crearTurno(entry: TurnoEntry): Promise<void> {
+    const { error } = await this.sb.supabase
+      .from('turnos')
+      .insert(entry);
+    if (error) {
+      if (error.code === '23505') {
+        alert('Ese turno ya está reservado. Por favor, elegí otro horario.');
+      } else {
+        console.error('Error crearTurno:', error.message);
+        alert('Error al reservar turno, intentá de nuevo más tarde.');
+      }
+    } else {
+      alert('Turno reservado con éxito ✅');
+    }
+  }
 
 }
