@@ -1,0 +1,128 @@
+<!-- Contenedor principal -->
+<div class="container d-flex justify-content-center">
+  <div *ngIf="modo === 'perfil'"
+    class="row-custom-width chat-box shadow-custom rounded overflow-hidden d-flex flex-column"
+    style="width: 400px; height: 400px;">
+  <div *ngIf="objUsuario">
+    <!-- Header -->
+    <div class="p-1 bg-azul text-white d-flex justify-content-between align-items-center">
+      <strong class="ms-2">Mi perfil</strong>
+      <button *ngIf="objUsuario.rol === 'especialista'" class="btn btn-success me-2" (click)="mostrarHorarios()">Mis horarios</button>
+      <button *ngIf="objUsuario.rol === 'paciente'" class="btn btn-success me-2">Historia clínica</button>
+    </div>
+
+    <!-- Contenido -->
+    <div class="flex-grow-1 overflow-hidden p-4 d-flex flex-column align-items-center justify-content-center"
+      style="background-color: #f8f9fa;">
+
+      <!-- Foto Paciente -->
+      <div *ngIf="objUsuario.rol === 'paciente'" class="mb-3">
+        <div id="carouselExampleIndicators" class="carousel slide custom-carousel mx-auto">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+              aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+              aria-label="Slide 2"></button>
+          </div>
+          <div class="carousel-inner rounded">
+            <div class="carousel-item active">
+              <img [src]="objUsuario.foto_1" class="d-block w-100 carousel-img" alt="foto 1 paciente">
+            </div>
+            <div class="carousel-item">
+              <img [src]="objUsuario.foto_2" class="d-block w-100 carousel-img" alt="foto 2 paciente">
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Foto Especialista -->
+      <div *ngIf="objUsuario.rol === 'especialista'" class="mb-3 text-center">
+        <img [src]="objUsuario.foto_1" alt="foto especialista" class="foto-especialista mx-auto d-block">
+      </div>
+
+      <!-- Datos del usuario -->
+      <div class="text-center">
+        <p><strong>{{ objUsuario.nombre }} {{ objUsuario.apellido }}</strong></p>
+        <p class="text-muted small">Edad: {{ objUsuario.edad }} | DNI: {{ objUsuario.dni }} | {{ objUsuario.email }}</p>
+      </div>
+
+    </div>
+    </div>
+  </div>
+
+ <div *ngIf="modo === 'horarios'"
+     class="row-custom-width chat-box shadow-custom rounded overflow-hidden d-flex flex-column"
+     style="width: 400px; height: 400px;">
+  <!-- Header -->
+  <div class="p-1 bg-azul text-white d-flex justify-content-between align-items-center">
+    <strong class="ms-2">Mis horarios</strong>
+    <button class="btn btn-success me-2" (click)="mostrarPerfil()">Mi perfil</button>
+  </div>
+
+  <!-- Contenido -->
+  <div class="flex-grow-1 overflow-hidden p-4 d-flex flex-column align-items-center justify-content-center"
+       style="background-color: #f8f9fa;">
+
+    <!-- Selección de Especialidad -->
+    <div class="mb-3 w-100 h-100">
+      <p class="mb-1 text-muted small">Especialidad:</p>
+      <div class="d-flex flex-wrap gap-2 justify-content-center">
+        <button *ngFor="let esp of objUsuario.especialidades"
+                type="button"
+                class="btn btn-outline-primary btn-especialidad"
+                [class.active]="selectedEspecialidad === esp"
+                (click)="selectEspecialidad(esp)">
+          {{ esp }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Selección de Día -->
+    <div class="mb-3 w-100 h-100">
+      <p class="mb-1 text-muted small">Día:</p>
+      <div class="d-flex gap-2 justify-content-center">
+        <button *ngFor="let d of dias; let i = index"
+                type="button"
+                class="btn btn-outline-primary btn-square"
+                [class.active]="selectedDia === i+1"
+                (click)="selectDia(i+1)">
+          {{ d }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Selección de Franja Horaria -->
+    <div class="mb-3 w-100 h-100">
+      <p class="mb-1 text-muted small">Horario:</p>
+      <div class="d-flex flex-wrap gap-2 justify-content-center">
+        <button *ngFor="let h of horarios"
+                type="button"
+                class="btn btn-outline-primary btn-square-large"
+                [class.active]="selectedHorario === h"
+                (click)="selectHorario(h)">
+          {{ h.label }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Botón Guardar -->
+    <div class="w-100 ">
+      <button class="btn btn-primary w-100"
+              [disabled]="!canGuardar()"
+              (click)="guardarHorario()">
+        Guardar
+      </button>
+    </div>
+  </div>
+</div>
+

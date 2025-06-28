@@ -10,3 +10,8 @@
 .btn-primary, .bg-azul{
     background-color: #015761;
 }
+
+/* Opcional: sombra personalizada para el recuadro */
+.shadow-custom {
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+}

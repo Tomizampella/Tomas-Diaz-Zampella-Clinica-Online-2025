@@ -1,5 +1,6 @@
 import { Injectable, inject} from '@angular/core';
 import { SupabaseService } from './supabase.service';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +9,10 @@ export class DatabaseService {
   sb = inject(SupabaseService);
   private BUCKET_NAME = 'fotosclinica';
   tablaUsuarios;
+  tablaEspecialidades;
   constructor() {
     this.tablaUsuarios = this.sb.supabase.from("usuarios_clinica");
+    this.tablaEspecialidades = this.sb.supabase.from("especialidades");
    }
 
    async agregarPaciente(email: string, nombre: string, apellido: string, edad: number, dni:string, 
@@ -36,6 +39,14 @@ export class DatabaseService {
     const { data, error } = await this.tablaUsuarios.insert({ email, nombre, apellido, edad, dni, rol,foto_1, aprobacion_admin});
     if (error) {
       console.error('Error al agregar administrador a la base de datos:', error.message);
+    }
+    }
+
+    async agregarEspecialidad(nombre: string) 
+    {
+    const { data, error } = await this.tablaEspecialidades.insert({nombre});
+    if (error) {
+      console.error('Error al agregar especialidad a la base de datos:', error.message);
     }
     }
     
@@ -96,6 +107,56 @@ async traerTodosLosUsuarios() {
       console.error('Error al cambiar estadodel especialista:', error.message);
     }
   }
+
+  async traerUsuario(email: string): Promise<any | null> {
+  const { data, error } = await this.tablaUsuarios.select('*').eq('email', email).single();
+
+  if (error) {
+    console.error('Error al solicitar los datos del usuario:', error.message);
+    return null;
+  }
+
+  return data;
+}
+
+async guardarDisponibilidad(entry: {
+  usuario_id: string;
+  especialidad: string;
+  dia_semana: number;
+  hora_inicio: string; // 'HH:MM'
+  hora_fin: string;    // 'HH:MM'
+}) {
+  const { data, error } = await this.sb.supabase
+    .from('disponibilidad_especialistas')
+    .insert(entry);
+
+  if (error) {
+    if (error.code === '23505') {
+      // Violación de constraint única
+      Swal.fire({
+        title: "Importante",
+        text: "¡Ya se guardó esta disponibilidad horaria anteriormente!",
+        icon: "info",
+        confirmButtonText: "Entendido",
+        scrollbarPadding: false
+      });
+    } else {
+      // Otro error no esperado
+      console.error("Error inesperado al guardar:", error.message);
+      Swal.fire({
+        title: "Error",
+        text: "Ocurrió un problema al guardar la disponibilidad.",
+        icon: "error",
+        confirmButtonText: "Ok",
+        scrollbarPadding: false
+      });
+    }
+    return null;
+  }
+
+  return data;
+}
+
 
 
 }

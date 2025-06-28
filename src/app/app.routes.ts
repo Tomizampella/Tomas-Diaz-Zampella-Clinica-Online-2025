@@ -5,6 +5,9 @@ import { LoginComponent } from './pages/login/login.component';
 import { PacienteComponent } from './pages/paciente/paciente.component';
 import { EspecialistaComponent } from './pages/especialista/especialista.component';
 import { SeccionUsuariosComponent } from './pages/seccion-usuarios/seccion-usuarios.component';
+import { PrincipalPacienteComponent } from './pages/principal-paciente/principal-paciente.component';
+import { PrincipalEspecialistaComponent } from './pages/principal-especialista/principal-especialista.component';
+
 
 export const routes: Routes = [
     {
@@ -25,11 +28,11 @@ export const routes: Routes = [
         component: LoginComponent
     },
     {
-        path: "paciente",
+        path: "registro-paciente",
         component: PacienteComponent
     },
     {
-        path: "especialista",
+        path: "registro-especialista",
         component: EspecialistaComponent
     },
     {
@@ -51,6 +54,27 @@ export const routes: Routes = [
             {
                 path: 'administrar-especialistas',
                 loadComponent: () => import('./componentes/administrar-especialistas/administrar-especialistas.component')
+            }
+        ]
+        
+    },
+    {
+        path: "paciente",
+        component: PrincipalPacienteComponent,
+        children:[
+            {
+                path: 'solicitar-turno',
+                loadComponent: () => import('./componentes/solicitar-turno/solicitar-turno.component')
+            }
+        ]
+    },
+    {
+        path: "especialista",
+        component: PrincipalEspecialistaComponent,
+        children:[
+            {
+                path: 'mi-perfil',
+                loadComponent: () => import('./componentes/mi-perfil/mi-perfil.component')
             }
         ]
     }

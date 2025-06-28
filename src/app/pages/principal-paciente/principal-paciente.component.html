@@ -1,0 +1,30 @@
+<app-header></app-header>
+
+<div class="registro-container">
+  <!-- Sidebar -->
+  <nav class="sidebar bg-light p-3">
+    <h5 class="mb-4">Paciente</h5>
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link active" routerLink="solicitar-turno" >Solicitar turno</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="administrar-especialistas" >Mis turnos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"  routerLink="agregar-usuario" >Mi perfil</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Contenido principal -->
+  <div class="contenido flex-grow-1 p-4 overflow-auto">
+     <div *ngIf="mostrarTexto">
+      <h2>Pacientes</h2>
+      <p>Seleccione alguna opción de la barra lateral.</p>
+    </div>
+    <router-outlet/>
+  </div>
+</div>
+
+<app-footer></app-footer>

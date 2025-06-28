@@ -44,19 +44,37 @@ foto_1!: File;
     this.especialidadesSeleccionadas = [...selected];
   }
 
-  agregarEspecialidad() {
+  async agregarEspecialidad() {
   const soloLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+  const especialidad = this.nuevaEspecialidad.trim();
 
-  if (!soloLetras.test(this.nuevaEspecialidad.trim())) {
+  // Validación de solo letras
+  if (!soloLetras.test(especialidad)) {
     this.especialidadInvalida = true;
     return;
   }
 
-  // Si pasa la validación
   this.especialidadInvalida = false;
 
-  // Agregar la especialidad si es válida
-  this.especialidadesSeleccionadas.push(this.nuevaEspecialidad.trim());
+  // Evitar duplicados en seleccionadas
+  if (this.especialidadesSeleccionadas.includes(especialidad)) {
+    this.nuevaEspecialidad = '';
+    return;
+  }
+
+  // Agregar a seleccionadas
+  this.especialidadesSeleccionadas.push(especialidad);
+
+  // Si no está en las predefinidas, guardarla en la base de datos
+  if (!this.especialidadesPredefinidas.map(e => e.toLowerCase()).includes(especialidad.toLowerCase()))
+ {
+    try {
+      await this.db.agregarEspecialidad(especialidad);
+    } catch (error) {
+      console.error('No se pudo guardar la especialidad personalizada:', error);
+    }
+  }
+
   this.nuevaEspecialidad = '';
 }
 

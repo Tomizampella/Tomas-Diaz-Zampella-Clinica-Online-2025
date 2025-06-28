@@ -1,0 +1,119 @@
+:host {
+  display: block;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+
+.btn-primary, .bg-azul{
+    background-color: #015761;
+}
+
+/* Tamaño y estilo del carrusel */
+.custom-carousel {
+  width: 150px;
+  height: 150px;
+}
+
+/* Imágenes del carrusel */
+.custom-carousel .carousel-img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 2px solid rgba(33, 31, 31, 0.5);
+}
+
+/* Imagen de especialista */
+.foto-especialista {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 2px solid rgba(33, 31, 31, 0.5);
+}
+
+/* Opcional: sombra personalizada para el recuadro */
+.shadow-custom {
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Cambiar color de los indicadores (los puntitos abajo del carrusel) */
+.carousel-indicators [data-bs-target] {
+  background-color: #015761; /* color que vos quieras */
+}
+
+/* Indicador activo (el punto seleccionado) */
+.carousel-indicators .active {
+  background-color: #019dbb; /* color más claro o diferente */
+}
+
+
+/*Horarios*/
+
+/* Botones cuadrados de especialidad y día */
+.btn-square {
+  width: 60px;
+  /* height: 60px;
+  padding: 0; */
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.btn-especialidad{
+    
+    width: 100px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    
+}
+
+/* Botones de franja más anchos */
+.btn-square-large {
+  /* width: 100px;
+  height: 60px;
+  padding: 0; */
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+/* Estado seleccionado */
+.btn-square.active,
+.btn-square-large.active,
+.btn-especialidad.active{
+  background-color: #015761;
+  color: #fff;
+  border-color: #015761;
+}
+
+/* Margin interno para el bloque */
+.mb-3 p {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+/* Borde y texto del outline */
+.btn-outline-primary {
+  border-color: #015761 !important;
+  color: #015761 !important;
+}
+
+/* Hover: fondo más claro y texto blanco */
+.btn-outline-primary:hover {
+  background-color: #027d8c !important; /* un cyan tirando a claro */
+  border-color:  #027d8c !important;
+  color: #fff !important;
+}
+
+/* Active (cuando está seleccionado) */
+.btn-outline-primary.active,
+.btn-outline-primary:active {
+  background-color: #015761 !important;
+  border-color:     #015761 !important;
+  color:            #fff !important;
+}
+
+
+
