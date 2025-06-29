@@ -135,6 +135,19 @@ export class DatabaseService {
     }
   }
 
+  async cambiarEstadoTurnoComentario(id_turno: string, estado_nuevo: string, comentario: string) {
+  const comentarioFinal = comentario?.trim() || null;
+
+  const { data, error } = await this.sb.supabase
+    .from("turnos")
+    .update({ estado: estado_nuevo, comentario: comentarioFinal })
+    .eq("id", id_turno);
+
+  if (error) {
+    console.error('Error al cambiar estado del turno:', error.message);
+  }
+}
+
   async traerUsuario(email: string): Promise<any | null> {
     const { data, error } = await this.sb.supabase.from("usuarios_clinica").select('*').eq('email', email).single();
 
@@ -181,6 +194,30 @@ export class DatabaseService {
 
     return data;
   }
+
+  // 1. Todas los turnos
+  async traerTodosLosTurnos() {
+  const { data, error } = await this.sb.supabase
+    .from('turnos')
+    .select(`
+      id,
+      especialidad,
+      fecha,
+      hora,
+      estado,
+      comentario,
+      paciente:usuarios_clinica!paciente_id (nombre, apellido),
+      especialista:usuarios_clinica!especialista_id (nombre, apellido)
+    `);
+
+  if (error) {
+    console.error('Error traerTodosLosTurnos:', error.message);
+    return [];
+  }
+
+  return data;
+}
+
 
 
   // 1. Todas las especialidades

@@ -1,0 +1,61 @@
+<div class="container d-flex justify-content-center align-items-center" style="height: 100%;">
+    <div class="row-custom-width chat-box shadow-custom rounded overflow-hidden d-flex flex-column"
+        style="width: 500px; height: 420px;">
+
+        <!-- Header -->
+        <div class="p-1 bg-azul text-white d-flex justify-content-between align-items-center">
+            <strong class="ms-2">Turnos</strong>
+
+        </div>
+
+        <!-- Contenido -->
+        <div class="flex-grow-1 overflow-hidden p-3 d-flex flex-column align-items-center justify-content-center"
+            style="background-color: #f8f9fa;">
+            <div class="h-100 w-100 d-flex flex-column">
+                <!-- Buscador -->
+                <div class="w-100 mb-2">
+                    <input class="form-control w-100" type="text" placeholder="Búsqueda inteligente"
+                        [(ngModel)]="searchTerm">
+                </div>
+
+                <!-- Listado Turnos -->
+                <div *ngIf="filteredTurnos.length > 0; else sinResultados" class="flex-grow-1 overflow-auto p-4">
+                    <div *ngFor="let item of filteredTurnos; trackBy: trackById">
+                        <!-- Cards -->
+                        <div class="flex-grow-1 overflow-hidden p-2 d-flex flex-column align-items-center  m-3 shadow-custom rounded"
+                            [ngClass]="item.estado" style="height: 200px;">
+                            <!-- Card-header -->
+                            <div
+                                class="p-1 bg-azul text-white d-flex justify-content-between align-items-center w-100 rounded">
+                                <strong class="ms-2">{{formatearFecha(item.fecha)}}
+                                    {{formatHorario(item.hora)}}</strong>
+                                <strong class="me-2"> {{item.estado}}</strong>
+                            </div>
+                            <!-- Card-contenido -->
+                            <div class="p-2 d-flex flex-column align-items-center justify-content-center h-100">
+                                <p><strong>Especialidad:</strong> {{item.especialidad}}</p>
+                                <p><strong>Especialista:</strong> {{item.especialista.nombre}}
+                                    {{item.especialista.apellido}}</p>
+                            </div>
+                            <!-- Boton cancelar solo para estado:pendiente -->
+                            <div *ngIf="item.estado === 'pendiente'"
+                                class="d-flex flex-wrap gap-2 justify-content-center">
+                                <button type="button" class="btn btn-danger"
+                                    (click)="cancelarTurno(item)">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <ng-template #sinResultados>
+                    <div class="text-center text-muted mt-5">
+                        No se encontraron turnos que coincidan con "{{ searchTerm }}"
+                    </div>
+                </ng-template>
+
+            </div>
+
+
+        </div>
+    </div>
