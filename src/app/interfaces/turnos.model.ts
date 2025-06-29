@@ -7,6 +7,7 @@ export interface Especialidad {
 export interface Usuario {
   id: string;
   nombre: string;
+  apellido:string;
   foto_1: string;
   especialidades: string[];
 }

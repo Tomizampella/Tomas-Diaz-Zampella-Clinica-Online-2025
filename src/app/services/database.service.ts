@@ -1,4 +1,4 @@
-import { Injectable, inject} from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { SupabaseService } from './supabase.service';
 import Swal from 'sweetalert2';
 import { Especialidad, Disponibilidad, TurnoEntry, Usuario } from '../interfaces/turnos.model';
@@ -14,150 +14,176 @@ export class DatabaseService {
   constructor() {
     this.tablaUsuarios = this.sb.supabase.from("usuarios_clinica");
     this.tablaEspecialidades = this.sb.supabase.from("especialidades");
-   }
+  }
 
-   async agregarPaciente(email: string, nombre: string, apellido: string, edad: number, dni:string, 
-    rol:string, obra_social:string, foto_1:string, foto_2:string,aprobacion_admin:boolean = true) 
-    {
-    const { data, error } = await this.tablaUsuarios.insert({ email, nombre, apellido, edad, dni, rol, obra_social, foto_1, foto_2, aprobacion_admin});
+  async agregarPaciente(email: string, nombre: string, apellido: string, edad: number, dni: string,
+    rol: string, obra_social: string, foto_1: string, foto_2: string, aprobacion_admin: boolean = true) {
+    const { data, error } = await this.sb.supabase.from("usuarios_clinica").insert({ email, nombre, apellido, edad, dni, rol, obra_social, foto_1, foto_2, aprobacion_admin });
     if (error) {
       console.error('Error al agregar paciente a la base de datos:', error.message);
     }
-    }
+  }
 
-    async agregarEspecialista(email: string, nombre: string, apellido: string, edad: number, dni:string, 
-    rol:string, especialidades:string[], foto_1:string,aprobacion_admin:boolean = false) 
-    {
-    const { data, error } = await this.tablaUsuarios.insert({ email, nombre, apellido, edad, dni, rol, especialidades, foto_1, aprobacion_admin});
+  async agregarEspecialista(email: string, nombre: string, apellido: string, edad: number, dni: string,
+    rol: string, especialidades: string[], foto_1: string, aprobacion_admin: boolean = false) {
+    const { data, error } = await this.sb.supabase.from("usuarios_clinica").insert({ email, nombre, apellido, edad, dni, rol, especialidades, foto_1, aprobacion_admin });
     if (error) {
       console.error('Error al agregar especialista a la base de datos:', error.message);
     }
-    }
+  }
 
-    async agregarAdministrador(email: string, nombre: string, apellido: string, edad: number, dni:string, 
-    rol:string, foto_1:string,aprobacion_admin:boolean = true) 
-    {
-    const { data, error } = await this.tablaUsuarios.insert({ email, nombre, apellido, edad, dni, rol,foto_1, aprobacion_admin});
+  async agregarAdministrador(email: string, nombre: string, apellido: string, edad: number, dni: string,
+    rol: string, foto_1: string, aprobacion_admin: boolean = true) {
+    const { data, error } = await this.sb.supabase.from("usuarios_clinica").insert({ email, nombre, apellido, edad, dni, rol, foto_1, aprobacion_admin });
     if (error) {
       console.error('Error al agregar administrador a la base de datos:', error.message);
     }
-    }
+  }
 
-    async agregarEspecialidad(nombre: string) 
-    {
-    const { data, error } = await this.tablaEspecialidades.insert({nombre});
+  async agregarEspecialidad(nombre: string) {
+    const { data, error } = await this.tablaEspecialidades.insert({ nombre });
     if (error) {
       console.error('Error al agregar especialidad a la base de datos:', error.message);
     }
+  }
+
+
+  //subo la foto al supabase storage
+  async guardarFoto(archivo: File, nombreUsuario: string): Promise<string | null> {
+    const extension = archivo.name.split('.').pop(); // obtenemos la extensión del archivo
+    const nombreArchivo = `${nombreUsuario}_${Date.now()}.${extension}`;
+
+    const { data, error } = await this.sb.supabase.storage
+      .from(this.BUCKET_NAME)
+      .upload(nombreArchivo, archivo);
+
+    if (error) {
+      console.error('Error al subir archivo:', error.message);
+      return null;
     }
-    
 
-    //subo la foto al supabase storage
-   async guardarFoto(archivo: File, nombreUsuario: string): Promise<string | null> {
-  const extension = archivo.name.split('.').pop(); // obtenemos la extensión del archivo
-  const nombreArchivo = `${nombreUsuario}_${Date.now()}.${extension}`;
+    // Obtenemos la URL pública
+    const url = this.sb.supabase.storage.from(this.BUCKET_NAME).getPublicUrl(data!.path);
 
-  const { data, error } = await this.sb.supabase.storage
-    .from(this.BUCKET_NAME)
-    .upload(nombreArchivo, archivo);
-
-  if (error) {
-    console.error('Error al subir archivo:', error.message);
-    return null;
+    return url.data.publicUrl;
   }
 
-  // Obtenemos la URL pública
-  const url = this.sb.supabase.storage.from(this.BUCKET_NAME).getPublicUrl(data!.path);
+  async verificarAprobacionAdmin(correo: string): Promise<boolean> {
+    const { data, error } = await this.sb.supabase.from("usuarios_clinica")
+      .select("aprobacion_admin")
+      .eq("email", correo)
+      .single(); // esperamos un solo resultado
 
-  return url.data.publicUrl;
-}
+    if (error) {
+      console.error("Error al verificar aprobación del admin:", error.message);
+      return false;
+    }
 
-async verificarAprobacionAdmin(correo: string): Promise<boolean> {
-  const { data, error } = await this.tablaUsuarios
-    .select("aprobacion_admin")
-    .eq("email", correo)
-    .single(); // esperamos un solo resultado
-
-  if (error) {
-    console.error("Error al verificar aprobación del admin:", error.message);
-    return false;
+    return data?.aprobacion_admin === true;
   }
 
-  return data?.aprobacion_admin === true;
-}
+  async traerTodosLosUsuarios(): Promise<any[]> {
+    // recreamos la query desde cero
+    const { data, error } = await this.sb.supabase
+      .from('usuarios_clinica')
+      .select('*')   // sólo los campos que necesitás
 
-async traerTodosLosUsuarios() {
-    const { data, error } = await this.tablaUsuarios.select("*");
     if (error) {
       console.error('Error al solicitar todos los usuarios:', error.message);
+      return [];
     }
-    return data as any[];
+
+    return data;
   }
 
-  async traerTodosLosEspecialistas() {
-    const { data, error } = await this.tablaUsuarios.select("*").eq("rol", "especialista");
+  async traerTodosLosEspecialistas(): Promise<any[]> {
+    // recreamos la query desde cero
+    const { data, error } = await this.sb.supabase
+      .from('usuarios_clinica')
+      .select('*')   // sólo los campos que necesitás
+      .eq("rol", "especialista")
+
     if (error) {
       console.error('Error al solicitar todos los especialistas:', error.message);
+      return [];
     }
-    return data as any[];
+
+    return data;
   }
 
-  async cambiarEstadoEspecialista(id_usuario:string, habilitar:boolean = false){
-    const { data, error } = await this.tablaUsuarios.update({ aprobacion_admin: habilitar }).eq("id", id_usuario)
+
+
+  async traerTodosLosPacientes(): Promise<any[]> {
+    // recreamos la query desde cero
+    const { data, error } = await this.sb.supabase
+      .from('usuarios_clinica')
+      .select('id, nombre, apellido')   // sólo los campos que necesitás
+      .eq('rol', 'paciente');
+
     if (error) {
-      console.error('Error al cambiar estadodel especialista:', error.message);
+      console.error('Error al solicitar todos los pacientes:', error.message);
+      return [];
+    }
+
+    return data;
+  }
+
+  async cambiarEstadoEspecialista(id_usuario: string, habilitar: boolean = false) {
+    const { data, error } = await this.sb.supabase.from("usuarios_clinica").update({ aprobacion_admin: habilitar }).eq("id", id_usuario)
+    if (error) {
+      console.error('Error al cambiar estado del especialista:', error.message);
     }
   }
 
   async traerUsuario(email: string): Promise<any | null> {
-  const { data, error } = await this.tablaUsuarios.select('*').eq('email', email).single();
+    const { data, error } = await this.sb.supabase.from("usuarios_clinica").select('*').eq('email', email).single();
 
-  if (error) {
-    console.error('Error al solicitar los datos del usuario:', error.message);
-    return null;
+    if (error) {
+      console.error('Error al solicitar los datos del usuario:', error.message);
+      return null;
+    }
+
+    return data;
   }
 
-  return data;
-}
+  async guardarDisponibilidad(entry: {
+    usuario_id: string;
+    especialidad: string;
+    dia_semana: number;
+    hora_inicio: string; // 'HH:MM'
+    hora_fin: string;    // 'HH:MM'
+  }) {
+    const { data, error } = await this.sb.supabase
+      .from('disponibilidad_especialistas')
+      .upsert([entry], {
+        onConflict: 'usuario_id,especialidad,dia_semana'
+      });
 
-async guardarDisponibilidad(entry: {
-  usuario_id: string;
-  especialidad: string;
-  dia_semana: number;
-  hora_inicio: string; // 'HH:MM'
-  hora_fin: string;    // 'HH:MM'
-}) {
-  const { data, error } = await this.sb.supabase
-    .from('disponibilidad_especialistas')
-    .upsert([entry], {
-      onConflict: 'usuario_id,especialidad,dia_semana'
-    });
+    if (error) {
+      console.error("Error al guardar disponibilidad:", error.message);
+      Swal.fire({
+        title: "Error",
+        text: "Ocurrió un problema al guardar la disponibilidad.",
+        icon: "error",
+        confirmButtonText: "Ok",
+        scrollbarPadding: false
+      });
+      return null;
+    }
 
-  if (error) {
-    console.error("Error al guardar disponibilidad:", error.message);
     Swal.fire({
-      title: "Error",
-      text: "Ocurrió un problema al guardar la disponibilidad.",
-      icon: "error",
-      confirmButtonText: "Ok",
+      title: "Éxito",
+      text: "Datos actualizados correctamente.",
+      icon: "success",
+      confirmButtonText: "OK",
       scrollbarPadding: false
     });
-    return null;
+
+    return data;
   }
 
-  Swal.fire({
-    title: "Éxito",
-    text: "Datos actualizados correctamente.",
-    icon: "success",
-    confirmButtonText: "OK",
-    scrollbarPadding: false
-  });
 
-  return data;
-}
-
-
- // 1. Todas las especialidades
+  // 1. Todas las especialidades
   async getEspecialidades(): Promise<Especialidad[]> {
     const { data, error } = await this.sb.supabase
       .from('especialidades')
@@ -173,7 +199,7 @@ async guardarDisponibilidad(entry: {
   async getProfesionalesPorEspecialidad(especialidad: string): Promise<Usuario[]> {
     const { data, error } = await this.sb.supabase
       .from('usuarios_clinica')
-      .select('id, nombre, foto_1, especialidades')
+      .select('id, nombre, apellido ,foto_1, especialidades')
       .eq('rol', 'especialista')
       // operador "cs" (contains) para text[]
       .contains('especialidades', [especialidad]);
@@ -199,20 +225,30 @@ async guardarDisponibilidad(entry: {
   }
 
   // 4. Crear un turno (insert + UNIQUE constraint evita duplicados)
-  async crearTurno(entry: TurnoEntry): Promise<void> {
-    const { error } = await this.sb.supabase
-      .from('turnos')
-      .insert(entry);
-    if (error) {
-      if (error.code === '23505') {
-        alert('Ese turno ya está reservado. Por favor, elegí otro horario.');
-      } else {
-        console.error('Error crearTurno:', error.message);
-        alert('Error al reservar turno, intentá de nuevo más tarde.');
-      }
+  async crearTurno(entry: TurnoEntry): Promise<boolean> {
+  const { error } = await this.sb.supabase.from('turnos').insert(entry);
+  if (error) {
+    if (error.code === '23505') {
+      Swal.fire({
+        title: "Importante",
+        text: "Ese turno ya está reservado. Por favor, elegí otro horario.",
+        icon: "info",
+        confirmButtonText: "OK",
+        scrollbarPadding: false
+      });
     } else {
-      alert('Turno reservado con éxito ✅');
+      console.error('Error crearTurno:', error.message);
+      Swal.fire({
+        title: "Error",
+        text: "Ocurrió un error inesperado al reservar turno",
+        icon: "error",
+        confirmButtonText: "OK",
+        scrollbarPadding: false
+      });
     }
+    return false;
   }
+  return true;
+}
 
 }

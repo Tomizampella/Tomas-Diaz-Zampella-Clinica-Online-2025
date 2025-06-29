@@ -1,10 +1,28 @@
-<div class="container d-flex justify-content-center">
+<div class="container d-flex justify-content-center align-items-center" style="height: 100%;">
     <div class="row-custom-width chat-box shadow-custom rounded overflow-hidden d-flex flex-column"
-        style="max-width: 100%; height: 400px; min-width: 500px;">
+        style="max-width: 100%; height: 420px; min-width: 500px;">
+
         <!-- Header -->
-        <div class="p-1 bg-azul text-white d-flex justify-content-between align-items-center">
-            <strong class="ms-2">Solicitar turno</strong>
-        </div>
+         <div class="p-1 bg-azul text-white d-flex justify-content-between align-items-center">
+                 <strong class="ms-2">Solicitar turno</strong>
+     
+                 <!-- Solo si hay pacientes y el rol es admin -->
+                 <div *ngIf="rolUsuario === 'administrador' && pacientes?.length" class="dropdown me-2">
+                     <button class="btn btn-light dropdown-toggle text-dark" type="button" id="pacientesDropdown"
+                         data-bs-toggle="dropdown" aria-expanded="false">
+                         {{ selectedPacienteName() || 'Seleccionar paciente' }}
+                     </button>
+                     <ul class="dropdown-menu" aria-labelledby="pacientesDropdown"
+                         style="max-height: 200px; overflow-y: auto;">
+                         <li *ngFor="let p of pacientes">
+                             <a class="dropdown-item" href="#" (click)="selectPaciente(p.id); $event.preventDefault()">
+                                 {{ p.nombre }} {{ p.apellido }}
+                             </a>
+                         </li>
+                     </ul>
+                 </div>
+             </div>
+
         <!-- Contenido -->
         <div class="flex-grow-1 overflow-hidden p-3 d-flex flex-column align-items-center justify-content-center"
             style="background-color: #f8f9fa;">
@@ -30,12 +48,12 @@
                     <p class="mb-1 text-muted small ">Profesionales:</p>
                     <div class="row flex-shrink-0 profesionales-row">
                         <div class="d-flex flex-wrap gap-2 justify-content-center">
-                            <div *ngFor="let prof of profesionales">
+                            <div *ngFor="let prof of profesionales" class="d-flex flex-column align-items-center">
                                 <button type="button" class="btn btn-light btn-circle" (click)="selectProfesional(prof)"
                                     [class.active]="prof.id === selectedProf?.id">
                                     <img class="imagen-circle" [src]="prof.foto_1" alt="{{prof.nombre}}">
                                 </button>
-                                <div class="mt-1 small text-center"> <strong>{{ prof.nombre }}</strong></div>
+                                <div class="mt-1 small text-center"> <strong>{{ prof.nombre}}</strong></div>
                             </div>
                         </div>
                     </div>

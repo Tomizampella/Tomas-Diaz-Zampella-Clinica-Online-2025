@@ -1,5 +1,5 @@
 <!-- Contenedor principal -->
-<div class="container d-flex justify-content-center">
+<div class="container d-flex justify-content-center align-items-center" style="height: 100%;">
   <div class="row-custom-width chat-box shadow-custom rounded overflow-hidden d-flex flex-column" style="max-width: 800px; height: 400px;">
 
     <!-- Header -->
@@ -19,7 +19,7 @@
             <tr><th>Nombre</th><th>Apellido</th><th>Dni</th><th>Edad</th><th>Obra social</th><th>Foto 1</th><th>Foto 2</th></tr>
           </thead>
           <tbody>
-            @for (item of estadisticasPorRol['paciente']; track item.usuario) {
+            @for (item of estadisticasPorRol['paciente']; track item.id) {
               <tr>
                 <td>{{ item.nombre }}</td>
                 <td>{{ item.apellido }}</td>
@@ -38,7 +38,7 @@
             <tr><th>Nombre</th><th>Apellido</th><th>Dni</th><th>Edad</th><th>Especialidades</th><th>Foto 1</th></tr>
           </thead>
           <tbody>
-            @for (item of estadisticasPorRol['especialista']; track item.usuario) {
+            @for (item of estadisticasPorRol['especialista']; track item.id) {
               <tr>
                 <td>{{ item.nombre }}</td>
                 <td>{{ item.apellido }}</td>
@@ -56,7 +56,7 @@
             <tr><th>Nombre</th><th>Apellido</th><th>Dni</th><th>Edad</th><th>Foto 1</th></tr>
           </thead>
           <tbody>
-            @for (item of estadisticasPorRol['administrador']; track item.usuario) {
+            @for (item of estadisticasPorRol['administrador']; track item.id) {
               <tr>
                 <td>{{ item.nombre }}</td>
                 <td>{{ item.apellido }}</td>
@@ -73,7 +73,7 @@
             <tr><th>Nombre</th><th>Apellido</th><th>Dni</th><th>Edad</th><th>Correo</th><th>Rol</th><th>Foto 1</th><th>Foto 2</th></tr>
           </thead>
           <tbody>
-            @for (item of estadisticasPorRol['todos']; track item.usuario) {
+            @for (item of estadisticasPorRol['todos']; track item.id) {
               <tr>
                 <td>{{ item.nombre }}</td>
                 <td>{{ item.apellido }}</td>

@@ -12,12 +12,13 @@ export class AuthService {
   sb = inject(SupabaseService);
   db = inject(DatabaseService);
   router = inject(Router);
-  idUsuario: number = 0;
+  idUsuario: string = '';
   nombreUsuario: string = '';
   usuarioActual: User | null = null;
   primerInicio: boolean = false;
   isSesionVerificada: boolean = false;
   rolUsuario: string = '';
+  objUsuario: any = null;
   constructor() {
     // Verificar sesión actual (por si se refresca la página y ya estaba logueado)
     this.sb.supabase.auth.getSession().then(({ data }) => {
@@ -27,9 +28,9 @@ export class AuthService {
       if (this.usuarioActual) {
         this.nombreUsuario = this.usuarioActual.user_metadata?.['nombre_usuario'];
 
-        if (this.idUsuario === 0) {
+        if (this.idUsuario === '') {
           this.db.tablaUsuarios
-            .select('id, rol')
+            .select('*')
             .eq('email', this.usuarioActual.email)
             .single()
             .then(({ data, error }) => {
@@ -40,7 +41,8 @@ export class AuthService {
 
               this.idUsuario = data.id;
               this.rolUsuario = data.rol;
-              console.log(`rol desde verificador de sesion: ${this.rolUsuario}`)
+              this.objUsuario = data;
+              
             });
         }
       }
@@ -60,15 +62,15 @@ export class AuthService {
         this.usuarioActual = session.user;
 
         if (event === 'SIGNED_IN' && !this.primerInicio) {
-          this.router.navigateByUrl('/seccion-usuarios');
+          this.router.navigateByUrl('/paciente');
           this.primerInicio = true;
         }
 
         this.nombreUsuario = this.usuarioActual.user_metadata?.['nombre_usuario'];
 
-        if (this.idUsuario === 0) {
+        if (this.idUsuario === '') {
           this.db.tablaUsuarios
-            .select('id, rol')
+            .select('*')
             .eq('email', this.usuarioActual.email)
             .single()
             .then(({ data, error }) => {
@@ -79,7 +81,8 @@ export class AuthService {
 
               this.idUsuario = data.id;
               this.rolUsuario = data.rol;
-              console.log(`rol desde verificador de SIGNED_IN: ${this.rolUsuario}`)
+              this.objUsuario = data;
+             
             });
         }
       }

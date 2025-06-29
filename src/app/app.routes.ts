@@ -54,6 +54,10 @@ export const routes: Routes = [
             {
                 path: 'administrar-especialistas',
                 loadComponent: () => import('./componentes/administrar-especialistas/administrar-especialistas.component')
+            },
+            {
+                path: 'solicitar-turno',
+                loadComponent: () => import('./componentes/solicitar-turno/solicitar-turno.component')
             }
         ]
         
