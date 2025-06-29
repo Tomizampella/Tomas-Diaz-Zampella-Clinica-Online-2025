@@ -17,7 +17,6 @@ salir(){
     Swal.fire({
                 text: "¡Cesión cerrada!",
                 icon: "info",
-                scrollbarPadding: false,
                 allowOutsideClick: false, 
                 allowEscapeKey: false,
               })
