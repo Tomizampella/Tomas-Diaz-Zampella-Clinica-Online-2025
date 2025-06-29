@@ -11,18 +11,16 @@
     background-color: #015761;
 }
 
+.shadow-custom {
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+}
 
-/* Altura total dividida en 4 filas */
-/* .solicitar-turno { height: 100%; } */
-/* .especialidades-row { height: 30%; }
-.profesionales-row  { height: 30%; }
-.dias-row           { height: 10%; }
-.horarios-row       { height: 10%; } */
+
 
 /* Botón circular */
 .btn-circle {
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   padding: 0;
   overflow: hidden;
@@ -72,7 +70,7 @@
 .btn-dia{
     width: 60px;
     border-radius: 4px;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .btn-horario{
@@ -99,4 +97,24 @@
   background-color: #015761 !important;
   border-color:     #015761 !important;
   color:            #fff !important;
+}
+
+/* Animacion */
+@keyframes slideInFwdCenter {
+  0% {
+    transform: translateZ(-1400px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateZ(0);
+    opacity: 1;
+  }
+}
+
+.slide-in {
+  animation: slideInFwdCenter 1s ease-out 0s both;
+}
+
+.slide-in-texto {
+  animation: slideInFwdCenter 1s ease-out 0.5s both;
 }

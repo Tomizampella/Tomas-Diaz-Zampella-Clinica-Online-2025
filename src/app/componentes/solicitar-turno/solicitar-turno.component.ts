@@ -119,4 +119,15 @@ export default class SolicitarTurnoComponent {
   canGuardar(): boolean {
     return !!(this.selectedProf && this.selectedEsp && this.selectedDia && this.selectedHorario);
   }
+
+  /** Convierte "HH:MM:SS" a formato "h:mmam" / "h:mmpm" */
+formatHorario(h: string): string {
+  const [hh, mm] = h.split(':');
+  let hour = parseInt(hh, 10);
+  const minute = mm.padStart(2, '0');
+  const period = hour < 12 ? 'am' : 'pm';
+  hour = hour % 12;
+  if (hour === 0) hour = 12;
+  return `${hour}:${minute}${period}`;
+}
 }
