@@ -14,13 +14,13 @@ auth = inject(AuthService);
 
 salir(){
     this.auth.cerrarSesion();
-    Swal.fire({
-                title: "¡Cesión cerrada!",
-                text: "Redirigiendo al login",
-                icon: "info",
-                allowOutsideClick: true, 
-                allowEscapeKey: false,
-                showConfirmButton: false,
-              })
+    // Swal.fire({
+    //             title: "¡Cesión cerrada!",
+    //             text: "Redirigiendo al login",
+    //             icon: "info",
+    //             allowOutsideClick: true, 
+    //             allowEscapeKey: false,
+    //             showConfirmButton: false,
+    //           })
   }
 }

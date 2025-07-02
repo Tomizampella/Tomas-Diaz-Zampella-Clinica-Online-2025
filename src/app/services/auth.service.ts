@@ -61,6 +61,7 @@ export class AuthService {
         this.rolUsuario = '';
         this.correoUsuario = '';
         this.objUsuario = null;
+        this.router.navigateByUrl('/redireccion');
       } else if (session === null) {
         this.usuarioActual = null;
       } else {
@@ -144,8 +145,8 @@ export class AuthService {
   //cerrar sesion
   async cerrarSesion() {
     const { error } = await this.sb.supabase.auth.signOut();
-    setTimeout(() => {
-            window.location.href = 'home';
-    }, 3000);
+    // setTimeout(() => {
+    //         window.location.href = 'home';
+    // }, 3000);
   }
 }

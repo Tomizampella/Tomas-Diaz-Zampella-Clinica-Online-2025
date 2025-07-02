@@ -22,7 +22,8 @@ export class RedireccionComponent {
       } else if (rol === 'administrador') {
         this.router.navigateByUrl('/seccion-usuarios');
       }else {
-        this.router.navigateByUrl('/home');
+        // this.router.navigateByUrl('/home');
+        window.location.href = 'home';
       }
     }, 3000);
   }
