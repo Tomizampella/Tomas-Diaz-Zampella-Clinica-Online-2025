@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 export default class TurnosAdministradorComponent {
   db = inject(DatabaseService);
   turnos: any[] = [];
-  searchTerm: string = '';  // <--- aquí guardamos el texto del buscador
+  searchTerm: string = ''; 
 
   ngOnInit() {
     this.obtenerTurnos();

@@ -18,6 +18,7 @@ export class AuthService {
   primerInicio: boolean = false;
   isSesionVerificada: boolean = false;
   rolUsuario: string = '';
+  correoUsuario:string = '';
   objUsuario: any = null;
   constructor() {
     // Verificar sesión actual (por si se refresca la página y ya estaba logueado)
@@ -41,6 +42,7 @@ export class AuthService {
 
               this.idUsuario = data.id;
               this.rolUsuario = data.rol;
+              this.correoUsuario = data.email
               this.objUsuario = data;
               
             });

@@ -77,6 +77,10 @@ export const routes: Routes = [
             {
                 path: 'mi-perfil',
                 loadComponent: () => import('./componentes/mi-perfil/mi-perfil.component')
+            },
+            {
+                path: 'mis-turnos',
+                loadComponent: () => import('./componentes/mis-turnos/mis-turnos.component')
             }
         ]
     },
@@ -87,6 +91,10 @@ export const routes: Routes = [
             {
                 path: 'mi-perfil',
                 loadComponent: () => import('./componentes/mi-perfil/mi-perfil.component')
+            },
+            {
+                path: 'mis-turnos',
+                loadComponent: () => import('./componentes/mis-turnos/mis-turnos.component')
             }
         ]
     }

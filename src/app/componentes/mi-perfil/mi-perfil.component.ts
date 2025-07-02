@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { DatabaseService } from '../../services/database.service';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 interface Horario {
   label: string;
@@ -17,8 +18,10 @@ interface Horario {
 })
 export default class MiPerfilComponent {
   db = inject(DatabaseService);
+  auth = inject(AuthService);
   objUsuario: any = null;
   modo: 'perfil' | 'horarios' = 'perfil';
+  correoUsuario:string = '';
 
   // Estado de selección
   selectedEspecialidad: string | null = null;
@@ -37,9 +40,12 @@ export default class MiPerfilComponent {
   mostrarHorarios() { this.modo = 'horarios'; }
   mostrarPerfil()   { this.modo = 'perfil';   }
 
+  constructor(){
+    this.correoUsuario = this.auth.correoUsuario;
+  }
+
   async ngOnInit() {
-    const email = 'dale@dale.com';
-    this.objUsuario = await this.db.traerUsuario(email);
+    this.objUsuario = await this.db.traerUsuario(this.correoUsuario);
   }
 
   // Handlers de selección

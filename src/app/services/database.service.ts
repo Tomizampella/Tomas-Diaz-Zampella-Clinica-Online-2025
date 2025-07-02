@@ -206,6 +206,7 @@ export class DatabaseService {
       hora,
       estado,
       comentario,
+      hizo_la_encuesta,
       paciente:usuarios_clinica!paciente_id (nombre, apellido),
       especialista:usuarios_clinica!especialista_id (nombre, apellido)
     `);
@@ -287,5 +288,50 @@ export class DatabaseService {
   }
   return true;
 }
+
+// 1. Todas los turnos Por rol
+  async traerTodosLosTurnosPorRol(columna:string, usuario_id:string) {
+  const { data, error } = await this.sb.supabase
+    .from('turnos')
+    .select(`
+      id,
+      especialidad,
+      fecha,
+      hora,
+      estado,
+      comentario,
+      hizo_la_encuesta,
+      paciente:usuarios_clinica!paciente_id (nombre, apellido),
+      especialista:usuarios_clinica!especialista_id (nombre, apellido)
+    `)
+    .eq(columna, usuario_id);
+
+  if (error) {
+    console.error('Error traerTodosLosTurnos:', error.message);
+    return [];
+  }
+
+  return data;
+}
+
+async cambiarEstadoEncuesta(id_turno: string) {
+    const { data, error } = await this.sb.supabase.from("turnos").update({ hizo_la_encuesta: true }).eq("id", id_turno)
+    if (error) {
+      console.error('Error al cambiar estado de la encuesta:', error.message);
+    }
+  }
+
+ async guardarEncuesta(turno_id: string, atencion: string, recomienda: string, higiene_consultorio:string) {
+    const { data, error } = await this.sb.supabase.from("encuestas").insert({ turno_id, atencion, recomienda, higiene_consultorio});
+    if (error) {
+    console.error('Error al guardar encuesta:', error);
+    return false;
+  } else {
+    console.log('Encuesta guardada correctamente:', data);
+    return true;
+  }
+  }
+
+
 
 }

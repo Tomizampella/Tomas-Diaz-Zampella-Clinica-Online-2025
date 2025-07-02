@@ -1,0 +1,36 @@
+:host {
+  display: block;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+
+.btn-primary, .bg-azul{
+    background-color: #015761;
+}
+
+.shadow-custom {
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+}
+
+.pendiente{
+    background-color: yellow;
+}
+
+.aceptado{
+    background-color: lightblue;
+}
+
+.cancelado{
+    background-color: rgb(230, 61, 61);
+}
+
+.rechazado{
+    background-color: orange;
+}
+
+.realizado{
+    background-color: green;
+}
