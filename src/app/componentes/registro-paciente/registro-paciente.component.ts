@@ -39,6 +39,7 @@ export class RegistroPacienteComponent {
     if(url1 && url2){
       const creacionUsuario = await this.auth.crearCuenta(email, password, nombre);
       if(creacionUsuario){
+        this.auth.sb.supabase.auth.signOut()
         this.db.agregarPaciente(email,nombre,apellido,edad,dni,'paciente',obra_social,url1,url2);
         this.router.navigateByUrl('/login');
       }

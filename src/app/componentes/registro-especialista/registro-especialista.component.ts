@@ -89,6 +89,7 @@ foto_1!: File;
     if(url1){
       const creacionEspecialista = await this.auth.crearCuenta(email, password, nombre);
       if(creacionEspecialista){
+        this.auth.sb.supabase.auth.signOut()
         this.db.agregarEspecialista(email,nombre,apellido,edad,dni,'especialista',this.especialidadesSeleccionadas,url1);
         this.router.navigateByUrl('/login');
       }

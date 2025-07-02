@@ -7,6 +7,7 @@ import { EspecialistaComponent } from './pages/especialista/especialista.compone
 import { SeccionUsuariosComponent } from './pages/seccion-usuarios/seccion-usuarios.component';
 import { PrincipalPacienteComponent } from './pages/principal-paciente/principal-paciente.component';
 import { PrincipalEspecialistaComponent } from './pages/principal-especialista/principal-especialista.component';
+import { RedireccionComponent } from './pages/redireccion/redireccion.component';
 
 
 export const routes: Routes = [
@@ -26,6 +27,10 @@ export const routes: Routes = [
     {
         path: "login",
         component: LoginComponent
+    },
+    {
+        path: "redireccion",
+        component: RedireccionComponent
     },
     {
         path: "registro-paciente",

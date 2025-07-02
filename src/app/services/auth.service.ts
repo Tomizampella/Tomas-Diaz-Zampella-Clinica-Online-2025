@@ -30,7 +30,7 @@ export class AuthService {
         this.nombreUsuario = this.usuarioActual.user_metadata?.['nombre_usuario'];
 
         if (this.idUsuario === '') {
-          this.db.tablaUsuarios
+          this.sb.supabase.from("usuarios_clinica")
             .select('*')
             .eq('email', this.usuarioActual.email)
             .single()
@@ -61,21 +61,20 @@ export class AuthService {
         this.rolUsuario = '';
         this.correoUsuario = '';
         this.objUsuario = null;
-        this.router.navigateByUrl('/home');
       } else if (session === null) {
         this.usuarioActual = null;
       } else {
         this.usuarioActual = session.user;
 
         if (event === 'SIGNED_IN' && !this.primerInicio) {
-          this.router.navigateByUrl('/paciente');
+          this.router.navigateByUrl('/redireccion');
           this.primerInicio = true;
         }
 
         this.nombreUsuario = this.usuarioActual.user_metadata?.['nombre_usuario'];
 
         if (this.idUsuario === '') {
-          this.db.tablaUsuarios
+          this.sb.supabase.from("usuarios_clinica")
             .select('*')
             .eq('email', this.usuarioActual.email)
             .single()
@@ -146,5 +145,8 @@ export class AuthService {
   //cerrar sesion
   async cerrarSesion() {
     const { error } = await this.sb.supabase.auth.signOut();
+    setTimeout(() => {
+            window.location.href = 'home';
+    }, 3000);
   }
 }
