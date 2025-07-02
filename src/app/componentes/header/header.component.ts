@@ -18,7 +18,7 @@ salir(){
                 title: "¡Cesión cerrada!",
                 text: "Redirigiendo al login",
                 icon: "info",
-                allowOutsideClick: false, 
+                allowOutsideClick: true, 
                 allowEscapeKey: false,
                 showConfirmButton: false,
               })
