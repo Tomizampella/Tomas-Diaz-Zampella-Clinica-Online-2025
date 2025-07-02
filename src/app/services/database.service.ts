@@ -148,11 +148,35 @@ export class DatabaseService {
   }
 }
 
+async cambiarEstadoTurno(id_turno: string, estado_nuevo: string) {
+
+
+  const { data, error } = await this.sb.supabase
+    .from("turnos")
+    .update({ estado: estado_nuevo})
+    .eq("id", id_turno);
+
+  if (error) {
+    console.error('Error al cambiar estado del turno:', error.message);
+  }
+}
+
   async traerUsuario(email: string): Promise<any | null> {
     const { data, error } = await this.sb.supabase.from("usuarios_clinica").select('*').eq('email', email).single();
 
     if (error) {
       console.error('Error al solicitar los datos del usuario:', error.message);
+      return null;
+    }
+
+    return data;
+  }
+
+  async traerNombreApellido(id: string){
+    const { data, error } = await this.sb.supabase.from("usuarios_clinica").select('nombre, apellido').eq('id', id).single();
+
+    if (error) {
+      console.error('Error al solicitar el nombre y apellido del usuario:', error.message);
       return null;
     }
 
@@ -207,6 +231,7 @@ export class DatabaseService {
       estado,
       comentario,
       hizo_la_encuesta,
+      calificacion_atencion,
       paciente:usuarios_clinica!paciente_id (nombre, apellido),
       especialista:usuarios_clinica!especialista_id (nombre, apellido)
     `);
@@ -301,6 +326,7 @@ export class DatabaseService {
       estado,
       comentario,
       hizo_la_encuesta,
+      calificacion_atencion,
       paciente:usuarios_clinica!paciente_id (nombre, apellido),
       especialista:usuarios_clinica!especialista_id (nombre, apellido)
     `)
@@ -332,6 +358,17 @@ async cambiarEstadoEncuesta(id_turno: string) {
   }
   }
 
+async guardarCalificacionAtencion(id_turno: string, calificacion: string) {
+  const calificacionFinal = calificacion?.trim() || null;
 
+  const { data, error } = await this.sb.supabase
+    .from("turnos")
+    .update({ calificacion_atencion: calificacionFinal })
+    .eq("id", id_turno);
+
+  if (error) {
+    console.error('Error al guardar calificacion atención', error.message);
+  }
+}
 
 }

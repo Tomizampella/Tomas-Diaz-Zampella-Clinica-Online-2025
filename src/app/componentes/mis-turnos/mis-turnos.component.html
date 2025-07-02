@@ -34,19 +34,41 @@
                             <!-- Card-contenido -->
                             <div class="p-2 d-flex flex-column align-items-center justify-content-center h-100">
                                 <p><strong>Especialidad:</strong> {{item.especialidad}}</p>
-                                <p><strong>Especialista:</strong> {{item.especialista.nombre}}
-                                    {{item.especialista.apellido}}</p>
+                                <p *ngIf="rolUsuario === 'paciente'"><strong>Especialista:</strong>
+                                    {{item.especialista?.nombre}} {{item.especialista?.apellido}}</p>
+                                <p *ngIf="rolUsuario === 'especialista'"><strong>Paciente:</strong>
+                                    {{item.paciente.nombre}} {{item.paciente.apellido}}</p>
                             </div>
 
                             <!-- Paciente -->
                             <!-- contenedor de botones -->
                             <div class="d-flex flex-wrap gap-2 justify-content-center">
+                                @if(this.rolUsuario === 'paciente'){
                                 <button *ngIf="item.estado === 'pendiente' || item.estado === 'aceptado'" type="button"
-                                    class="btn btn-danger" (click)="cancelarTurno(item)">Cancelar</button>
+                                    class="btn btn-danger"
+                                    (click)="cancelarRechazarTurno(item, 'cancelado')">Cancelar</button>
+
+                                <button *ngIf="item.estado === 'realizado' && !item.hizo_la_encuesta" type="button"
+                                    class="btn btn-warning" (click)="hacerEncuesta(item)">Encuesta</button>
+                                <button *ngIf="item.estado === 'realizado' && !item.calificacion_atencion" type="button"
+                                    class="btn pendiente" (click)="calificarAtencion(item)">Calificar
+                                    atención</button>
+                                }@else if (this.rolUsuario === 'especialista') {
+                                
+                                    <button *ngIf="item.estado === 'aceptado'" type="button" class="btn btn-danger"
+                                    (click)="cancelarRechazarTurno(item, 'cancelado')">Cancelar</button>
+                                
+                                    <button *ngIf="item.estado === 'pendiente'" type="button" class="btn rechazado"
+                                    (click)="cancelarRechazarTurno(item, 'rechazado')">Rechazar</button>
+
+                                    <button *ngIf="item.estado === 'pendiente'" type="button" class="btn btn-success"
+                                    (click)="aceptarTurno(item)">Aceptar</button>
+
+                                    <button *ngIf="item.estado === 'aceptado'" type="button" class="btn btn-success"
+                                    (click)="finalizarTurno(item)">Finalizar</button>
+                                }
                                 <button *ngIf="item.comentario" type="button" class="btn btn-info"
                                     (click)="verResena(item)">Ver reseña</button>
-                                <button *ngIf="item.estado === 'realizado' && !item.hizo_la_encuesta" type="button" class="btn btn-warning"
-                                    (click)="hacerEncuesta(item)">Completar encuesta</button>
 
                             </div>
 
@@ -57,7 +79,7 @@
 
                 </div>
                 <ng-template #sinResultados>
-                    <div class="text-center text-muted mt-5">
+                    <div *ngIf="searchTerm.length > 0" class="text-center text-muted mt-5">
                         No se encontraron turnos que coincidan con "{{ searchTerm }}"
                     </div>
                 </ng-template>

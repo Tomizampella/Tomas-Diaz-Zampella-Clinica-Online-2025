@@ -17,20 +17,40 @@
 
 .pendiente{
     background-color: yellow;
+    animation: slideInFwdCenter 1s ease-out 0s both;
 }
 
 .aceptado{
     background-color: lightblue;
+    animation: slideInFwdCenter 1s ease-out 0s both;
 }
 
 .cancelado{
     background-color: rgb(230, 61, 61);
+    animation: slideInFwdCenter 1s ease-out 0s both;
 }
 
 .rechazado{
     background-color: orange;
+    animation: slideInFwdCenter 1s ease-out 0s both;
 }
 
 .realizado{
     background-color: green;
+    animation: slideInFwdCenter 1s ease-out 0s both;
 }
+
+@keyframes slideInFwdCenter {
+    0% {
+      transform: translateZ(-1400px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateZ(0);
+      opacity: 1;
+    }
+  }
+  
+  .slide-in {
+    animation: slideInFwdCenter 1s ease-out 0s both;
+  }

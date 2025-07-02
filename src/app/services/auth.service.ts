@@ -42,7 +42,7 @@ export class AuthService {
 
               this.idUsuario = data.id;
               this.rolUsuario = data.rol;
-              this.correoUsuario = data.email
+              this.correoUsuario = data.email;
               this.objUsuario = data;
               
             });
@@ -56,7 +56,11 @@ export class AuthService {
 
       if (event === 'SIGNED_OUT') {
         this.usuarioActual = null;
-        this.primerInicio = false;
+        this.isSesionVerificada = false;
+        this.idUsuario = '';
+        this.rolUsuario = '';
+        this.correoUsuario = '';
+        this.objUsuario = null;
         this.router.navigateByUrl('/home');
       } else if (session === null) {
         this.usuarioActual = null;
@@ -83,6 +87,7 @@ export class AuthService {
 
               this.idUsuario = data.id;
               this.rolUsuario = data.rol;
+              this.correoUsuario = data.email;
               this.objUsuario = data;
              
             });
