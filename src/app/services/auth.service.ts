@@ -21,7 +21,7 @@ export class AuthService {
   correoUsuario:string = '';
   objUsuario: any = null;
   constructor() {
-    // Verificar sesión actual (por si se refresca la página y ya estaba logueado)
+    
     this.sb.supabase.auth.getSession().then(({ data }) => {
       this.usuarioActual = data.session?.user ?? null;
       this.isSesionVerificada = true;
@@ -50,7 +50,7 @@ export class AuthService {
       }
     });
 
-    // Escuchar cambios en el estado de autenticación
+
     this.sb.supabase.auth.onAuthStateChange((event, session) => {
 
 
@@ -93,7 +93,6 @@ export class AuthService {
         }
       }
 
-      // Siempre marcar como verificado después de recibir cualquier evento
       this.isSesionVerificada = true;
     });
   }
@@ -107,7 +106,7 @@ export class AuthService {
       password: contraseña,
       options: {
         data: {
-          nombre_usuario: nombreUsuario  // o "username", como prefieras nombrarlo
+          nombre_usuario: nombreUsuario
         }
       }
     });
