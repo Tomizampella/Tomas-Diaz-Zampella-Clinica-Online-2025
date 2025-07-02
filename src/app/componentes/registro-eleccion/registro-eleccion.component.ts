@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './registro-eleccion.component.html',
   styleUrl: './registro-eleccion.component.css'
 })
-export default class RegistroEleccionComponent {
+export class RegistroEleccionComponent {
   modo: 'ninguno' | 'paciente' | 'especialista' = 'ninguno';
 
   mostrarPaciente() {

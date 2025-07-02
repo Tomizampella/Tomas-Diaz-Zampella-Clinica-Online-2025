@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './administrar-especialistas.component.html',
   styleUrl: './administrar-especialistas.component.css'
 })
-export default class AdministrarEspecialistasComponent {
+export class AdministrarEspecialistasComponent {
 db = inject(DatabaseService);
 sb = inject(SupabaseService);
 especialistas: any[] = [];

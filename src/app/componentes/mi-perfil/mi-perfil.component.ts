@@ -16,7 +16,7 @@ interface Horario {
   templateUrl: './mi-perfil.component.html',
   styleUrl: './mi-perfil.component.css'
 })
-export default class MiPerfilComponent {
+export class MiPerfilComponent {
   db = inject(DatabaseService);
   auth = inject(AuthService);
   objUsuario: any = null;

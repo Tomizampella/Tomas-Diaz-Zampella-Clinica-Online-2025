@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './turnos-administrador.component.html',
   styleUrl: './turnos-administrador.component.css'
 })
-export default class TurnosAdministradorComponent {
+export class TurnosAdministradorComponent {
   db = inject(DatabaseService);
   turnos: any[] = [];
   searchTerm: string = ''; 

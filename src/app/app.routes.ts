@@ -16,91 +16,27 @@ export const routes: Routes = [
         redirectTo: "home",
         pathMatch: "full"
     },
-    {
-        path: "home",
-        component: HomeComponent
-    },
-    {
-        path: "registro",
-        component: RegistroComponent
-    },
-    {
-        path: "login",
-        component: LoginComponent
-    },
-    {
-        path: "redireccion",
-        component: RedireccionComponent
-    },
-    {
-        path: "registro-paciente",
-        component: PacienteComponent
-    },
-    {
-        path: "registro-especialista",
-        component: EspecialistaComponent
-    },
+    { path: 'home', loadComponent: () => import("./pages/home/home.component").then((archivo) => archivo.HomeComponent) },
+    { path: 'registro', loadComponent: () => import("./pages/registro/registro.component").then((archivo) => archivo.RegistroComponent) },
+    { path: 'login', loadComponent: () => import("./pages/login/login.component").then((archivo) => archivo.LoginComponent) },
+    { path: 'redireccion', loadComponent: () => import("./pages/redireccion/redireccion.component").then((archivo) => archivo.RedireccionComponent) },
+    { path: 'registro-paciente', loadComponent: () => import("./pages/paciente/paciente.component").then((archivo) => archivo.PacienteComponent) },
+    { path: 'registro-especialista', loadComponent: () => import("./pages/especialista/especialista.component").then((archivo) => archivo.EspecialistaComponent) },
     {
         path: "seccion-usuarios",
         component: SeccionUsuariosComponent,
-        children:[
-            {
-                path: 'agregar-admin',
-                loadComponent: () => import('./componentes/registro-administrador/registro-administrador.component')
-            },
-            {
-                path: 'agregar-usuario',
-                loadComponent: () => import('./componentes/registro-eleccion/registro-eleccion.component')
-            },
-            {
-                path: 'listado-usuarios',
-                loadComponent: () => import('./componentes/listado-usuarios/listado-usuarios.component')
-            },
-            {
-                path: 'administrar-especialistas',
-                loadComponent: () => import('./componentes/administrar-especialistas/administrar-especialistas.component')
-            },
-            {
-                path: 'solicitar-turno',
-                loadComponent: () => import('./componentes/solicitar-turno/solicitar-turno.component')
-            },
-            {
-                path: 'turnos',
-                loadComponent: () => import('./componentes/turnos-administrador/turnos-administrador.component')
-            }
-        ]
+        loadChildren: () => import("./pages/seccion-usuarios/seccion-usuarios.routes").then((archivo)=> archivo.routes)
         
     },
     {
         path: "paciente",
         component: PrincipalPacienteComponent,
-        children:[
-            {
-                path: 'solicitar-turno',
-                loadComponent: () => import('./componentes/solicitar-turno/solicitar-turno.component')
-            },
-            {
-                path: 'mi-perfil',
-                loadComponent: () => import('./componentes/mi-perfil/mi-perfil.component')
-            },
-            {
-                path: 'mis-turnos',
-                loadComponent: () => import('./componentes/mis-turnos/mis-turnos.component')
-            }
-        ]
+        loadChildren: () => import("./pages/principal-paciente/principal-paciente.routes").then((archivo)=> archivo.routes)
     },
     {
         path: "especialista",
         component: PrincipalEspecialistaComponent,
-        children:[
-            {
-                path: 'mi-perfil',
-                loadComponent: () => import('./componentes/mi-perfil/mi-perfil.component')
-            },
-            {
-                path: 'mis-turnos',
-                loadComponent: () => import('./componentes/mis-turnos/mis-turnos.component')
-            }
-        ]
-    }
+        loadChildren: () => import("./pages/principal-especialista/principal-especialista.routes").then((archivo)=> archivo.routes)
+    },
+    { path: '**', redirectTo: 'redireccion' }
 ];

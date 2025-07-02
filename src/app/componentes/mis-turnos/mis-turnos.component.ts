@@ -12,7 +12,7 @@ import { RealtimeChannel } from '@supabase/supabase-js';
   templateUrl: './mis-turnos.component.html',
   styleUrl: './mis-turnos.component.css'
 })
-export default class MisTurnosComponent {
+export class MisTurnosComponent {
   db = inject(DatabaseService);
   turnos: any[] = [];
   searchTerm: string = '';

@@ -9,7 +9,7 @@ import * as FileSaver from 'file-saver';
   templateUrl: './listado-usuarios.component.html',
   styleUrl: './listado-usuarios.component.css'
 })
-export default class ListadoUsuariosComponent {
+export class ListadoUsuariosComponent {
 db = inject(DatabaseService);
 estadisticasPorRol: { [rol: string]: any[] } = {};
 rolSeleccionado: string | null = null;

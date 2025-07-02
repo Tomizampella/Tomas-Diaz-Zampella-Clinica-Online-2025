@@ -14,7 +14,7 @@ type Horario = string; // '08:00', '14:30', etc.
   templateUrl: './solicitar-turno.component.html',
   styleUrl: './solicitar-turno.component.css'
 })
-export default class SolicitarTurnoComponent {
+export class SolicitarTurnoComponent {
   auth = inject(AuthService);
   especialidades: Especialidad[] = [];
   profesionales: Usuario[] = [];

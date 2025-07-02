@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   templateUrl: './registro-administrador.component.html',
   styleUrl: './registro-administrador.component.css'
 })
-export default class RegistroAdministradorComponent {
+export class RegistroAdministradorComponent {
   private fb = inject(FormBuilder);
   db = inject(DatabaseService);
   auth = inject(AuthService);
