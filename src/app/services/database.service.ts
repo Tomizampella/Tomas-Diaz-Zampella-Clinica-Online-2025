@@ -148,6 +148,23 @@ export class DatabaseService {
   }
 }
 
+async finalizarTurnoConDatos(id_turno: string, estado_nuevo: string, comentario: string, datos_consulta: string) {
+  const comentarioFinal = comentario?.trim() || null;
+
+  const { error } = await this.sb.supabase
+    .from("turnos")
+    .update({
+      estado: estado_nuevo,
+      comentario: comentarioFinal,
+      datos_consulta: datos_consulta
+    })
+    .eq("id", id_turno);
+
+  if (error) {
+    console.error('Error al finalizar el turno:', error.message);
+  }
+}
+
 async cambiarEstadoTurno(id_turno: string, estado_nuevo: string) {
 
 
@@ -232,6 +249,7 @@ async cambiarEstadoTurno(id_turno: string, estado_nuevo: string) {
       comentario,
       hizo_la_encuesta,
       calificacion_atencion,
+      datos_consulta,
       paciente:usuarios_clinica!paciente_id (nombre, apellido),
       especialista:usuarios_clinica!especialista_id (nombre, apellido)
     `);
@@ -327,6 +345,7 @@ async cambiarEstadoTurno(id_turno: string, estado_nuevo: string) {
       comentario,
       hizo_la_encuesta,
       calificacion_atencion,
+      datos_consulta,
       paciente:usuarios_clinica!paciente_id (nombre, apellido),
       especialista:usuarios_clinica!especialista_id (nombre, apellido)
     `)
