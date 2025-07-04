@@ -13,7 +13,7 @@ export class ListadoUsuariosComponent {
 db = inject(DatabaseService);
 estadisticasPorRol: { [rol: string]: any[] } = {};
 rolSeleccionado: string | null = null;
-
+turnos: any[] = [];
 async ngOnInit() {
     const data = await this.db.traerTodosLosUsuarios();
     this.estadisticasPorRol = this.agruparPorRol(data);
@@ -39,7 +39,54 @@ agruparPorRol(usuarios: any[]): { [rol: string]: any[] } {
     this.rolSeleccionado = rol;
   }
 
-  descargarExcel() {
+
+
+  async descargarExcelPorPaciente(paciente: any) {
+  this.turnos = await this.db.traerTurnosRealizadosPorRol('paciente_id', paciente.id);
+  console.log('turnos desde la funcion descargarExcelPorPaciente: ', this.turnos);
+
+  if (this.turnos && this.turnos.length > 0) {
+    const datosFormateados = this.turnos.map(item => ({
+      Fecha: this.formatearFecha(item.fecha),
+      Horario: this.formatHorario(item.hora),
+      Nombre_especialista: item.especialista?.nombre,
+      Apellido_especialista: item.especialista?.apellido,
+      Especialidad: item.especialidad
+    }));
+
+    const nombreApellidoSheet = `${paciente.nombre}_${paciente.apellido}`;
+    const nombreSheet = `Listado de turnos de ${nombreApellidoSheet}`;
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(datosFormateados);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { [nombreSheet]: worksheet },
+      SheetNames: [nombreSheet]
+    };
+
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    FileSaver.saveAs(blob, `listado_de_turnos_${nombreApellidoSheet}.xlsx`);
+  }
+}
+
+
+
+formatHorario(h: string): string {
+    const [hh, mm] = h.split(':');
+    let hour = parseInt(hh, 10);
+    const minute = mm.padStart(2, '0');
+    const period = hour < 12 ? 'am' : 'pm';
+    hour = hour % 12;
+    if (hour === 0) hour = 12;
+    return `${hour}:${minute}${period}`;
+  }
+
+  formatearFecha(fechaStr: string): string {
+    const [anio, mes, dia] = fechaStr.split('-');
+    return `${dia}-${mes}-${anio}`;
+  }
+
+  descargarExcelTodos() {
   const data = this.estadisticasPorRol['todos'];
 
   // Mapear los datos solo con las propiedades que querés exportar
