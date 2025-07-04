@@ -13,14 +13,14 @@
 
 /* Tamaño y estilo del carrusel */
 .custom-carousel {
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
 }
 
 /* Imágenes del carrusel */
 .custom-carousel .carousel-img {
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   object-fit: cover;
   border-radius: 16px;
   border: 2px solid rgba(33, 31, 31, 0.5);
@@ -28,8 +28,8 @@
 
 /* Imagen de especialista */
 .foto-especialista {
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   object-fit: cover;
   border-radius: 16px;
   border: 2px solid rgba(33, 31, 31, 0.5);
@@ -113,6 +113,16 @@
   background-color: #015761 !important;
   border-color:     #015761 !important;
   color:            #fff !important;
+}
+
+
+.texto-historia{
+  font-size: 0.9rem;
+}
+
+.vertical-hr {
+ border-left: 2px solid rgb(224, 224, 224);
+  height: 100px;
 }
 
 

@@ -128,6 +128,8 @@ export class DatabaseService {
     return data;
   }
 
+
+
   async cambiarEstadoEspecialista(id_usuario: string, habilitar: boolean = false) {
     const { data, error } = await this.sb.supabase.from("usuarios_clinica").update({ aprobacion_admin: habilitar }).eq("id", id_usuario)
     if (error) {
@@ -349,6 +351,34 @@ async cambiarEstadoTurno(id_turno: string, estado_nuevo: string) {
       paciente:usuarios_clinica!paciente_id (nombre, apellido),
       especialista:usuarios_clinica!especialista_id (nombre, apellido)
     `)
+    .eq(columna, usuario_id);
+
+  if (error) {
+    console.error('Error traerTodosLosTurnos:', error.message);
+    return [];
+  }
+
+  return data;
+}
+
+async traerTurnosRealizadosPorRol(columna:string, usuario_id:string) {
+  const { data, error } = await this.sb.supabase
+    .from('turnos')
+    .select(`
+      id,
+      especialidad,
+      fecha,
+      hora,
+      estado,
+      comentario,
+      hizo_la_encuesta,
+      calificacion_atencion,
+      datos_consulta,
+      especialista_id,
+      paciente:usuarios_clinica!paciente_id (nombre, apellido, dni, obra_social),
+      especialista:usuarios_clinica!especialista_id (nombre, apellido)
+    `)
+    .eq('estado', 'realizado')
     .eq(columna, usuario_id);
 
   if (error) {
