@@ -224,8 +224,10 @@ export class MiPerfilComponent {
     contenido.push({
       text: `${this.formatearFecha(item.fecha)} - ${this.formatHorario(item.hora)}`,
       bold: true,
-      margin: [0, 25, 0, 5]
+      margin: [0, 50, 0, 10]
     });
+
+    contenido.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5 }] });
 
     // Especialidad y Especialista (izquierda y derecha)
     contenido.push({
@@ -233,7 +235,7 @@ export class MiPerfilComponent {
         { alignment: 'left', fontSize: 11,text: [{text: 'Especialidad: ', bold: true, fontSize: 13}, `${item.especialidad}`] },
         { alignment: 'right', fontSize: 11, text: [{text: 'Especialista: ', bold: true, fontSize: 13}, `${especialista.nombre ?? '-'} ${especialista.apellido ?? '-'}`] }
       ],
-      margin: [0, 0, 0, 5]
+      margin: [0, 7, 0, 7]
     });
 
     contenido.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5 }] });
@@ -243,7 +245,7 @@ export class MiPerfilComponent {
       columns: [
         { alignment: 'left', fontSize: 11, italics: true, text: [{text: 'Diagnóstico: ', bold: true, fontSize: 13}, `${item.comentario}`] },
       ],
-      margin: [0, 5, 0, 5]
+      margin: [0, 7, 0, 7]
     });
 
     contenido.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5 }] });
@@ -251,12 +253,12 @@ export class MiPerfilComponent {
     // Datos fijos (Altura, Peso, etc) como columnas
     contenido.push({
       columns: [
-        { alignment: 'left',fontSize: 10,text: [{text: 'Altura: ', bold: true, fontSize: 13}, `${datos.altura ?? '-'}`] },
-        { alignment: 'center',fontSize: 10,text: [{text: 'Peso: ', bold: true, fontSize: 13}, `${datos.peso ?? '-'}`] },
-        { alignment: 'center',fontSize: 10,text: [{text: 'Temperatura: ', bold: true, fontSize: 13}, `${datos.temperatura ?? '-'}`] },
+        { alignment: 'left',fontSize: 10,text: [{text: 'Altura: ', bold: true, fontSize: 13}, `${datos.altura ?? '-'}m`] },
+        { alignment: 'center',fontSize: 10,text: [{text: 'Peso: ', bold: true, fontSize: 13}, `${datos.peso ?? '-'}kg`] },
+        { alignment: 'center',fontSize: 10,text: [{text: 'Temperatura: ', bold: true, fontSize: 13}, `${datos.temperatura ?? '-'}°C`] },
         { alignment: 'right',fontSize: 10,text: [{text: 'Presión: ', bold: true, fontSize: 13}, `${datos.presion ?? '-'}`] },
       ],
-      margin: [0, 5, 0, 5]
+      margin: [0, 7, 0, 7]
     });
     
     contenido.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5 }] });
@@ -269,7 +271,7 @@ export class MiPerfilComponent {
       columns: [
         { alignment: 'left', fontSize: 11, text: [{text: 'Datos adicionales: ', bold: true, fontSize: 13}, `${extras}`] },
       ],
-      margin: [0, 5, 0, 5]
+      margin: [0, 7, 0, 7]
     });
     }
 
