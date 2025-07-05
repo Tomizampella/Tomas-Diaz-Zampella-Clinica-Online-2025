@@ -46,3 +46,7 @@
   transform: scale(1.05);
   border: 1px solid #015761;
 }
+
+.texto-historia{
+  font-size: 0.9rem;
+}

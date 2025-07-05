@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { DatabaseService } from '../../services/database.service';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-listado-usuarios',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './listado-usuarios.component.html',
   styleUrl: './listado-usuarios.component.css'
 })
@@ -14,6 +15,13 @@ db = inject(DatabaseService);
 estadisticasPorRol: { [rol: string]: any[] } = {};
 rolSeleccionado: string | null = null;
 turnos: any[] = [];
+
+//historia clinica
+modo: 'listado' | 'historia_clinica' = 'listado';
+selectedPaciente: string = '';
+turnos_historia: any[] = [];
+turnosPorId: { [paciente_id: string]: any[] } = {};
+
 async ngOnInit() {
     const data = await this.db.traerTodosLosUsuarios();
     this.estadisticasPorRol = this.agruparPorRol(data);
@@ -114,4 +122,55 @@ formatHorario(h: string): string {
   FileSaver.saveAs(blob, 'listado_usuarios.xlsx');
 }
 
+//historia clinica
+objectKeys = Object.keys;
+volverAlListado(){
+this.modo = 'listado';
+this.selectedPaciente = '';
 }
+
+selectPaciente(id_paciente: string) {
+  this.selectedPaciente = id_paciente;
+  this.obtenerTurnos(this.selectedPaciente);
+  this.modo = 'historia_clinica';
+  
+}
+
+ async obtenerTurnos(paciente_id:string) {
+    this.turnos_historia = await this.db.traerTurnosRealizadosPorRol('paciente_id', paciente_id);
+    this.turnos_historia = this.turnos_historia.map(t => {
+      try {
+        t.datos_consulta_parseado = typeof t.datos_consulta === 'string'
+          ? JSON.parse(t.datos_consulta)
+          : t.datos_consulta;
+      } catch (e) {
+        t.datos_consulta_parseado = null;
+      }
+      return t;
+    });
+
+    if(this.turnos_historia){
+      this.turnosPorId = this.agruparPorId(this.turnos_historia);
+    }
+  }
+
+  agruparPorId(turnos: any[]): { [paciente_id: string]: any[] } {
+  const agrupado: { [paciente_id: string]: any[] } = {};
+
+  turnos.forEach(t => {
+    if (!agrupado[t.paciente_id]) {
+      agrupado[t.paciente_id] = [];
+    }
+    agrupado[t.paciente_id].push(t);
+  });
+
+  return agrupado;
+}
+
+trackById(index: number, item: any) {
+  return item.id;
+}
+
+
+}
+

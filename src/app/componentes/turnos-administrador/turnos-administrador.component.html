@@ -19,7 +19,7 @@
                 </div>
 
                 <!-- Listado Turnos -->
-                <div *ngIf="filteredTurnos.length > 0; else sinResultados" class="flex-grow-1 overflow-auto p-4">
+                <div *ngIf="filteredTurnos.length > 0; else sinResultados" class="flex-grow-1 overflow-auto p-4 rounded" style="background-color: rgb(235, 235, 235);">
                     <div *ngFor="let item of filteredTurnos; trackBy: trackById">
                         <!-- Cards -->
                         <div class="flex-grow-1 overflow-hidden p-2 d-flex flex-column align-items-center  m-3 shadow-custom rounded"

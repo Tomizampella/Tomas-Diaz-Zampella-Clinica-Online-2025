@@ -153,10 +153,10 @@
       <div class="h-100 w-100 d-flex flex-column">
         @if (turnos.length > 0) {
         <!-- Listado Turnos -->
-        <div class="flex-grow-1 overflow-auto">
+        <div class="flex-grow-1 overflow-auto rounded d-flex flex-column align-items-center" style="background-color: rgb(235, 235, 235);">
           @for (item of turnos; track item.id) {
           <div class="flex-grow-1 overflow-hidden p-2 d-flex flex-column align-items-center m-3 shadow-custom rounded"
-             style="min-height: 330px; max-width: 430px; width: 100%;background-color: rgb(190, 189, 189);">
+             style="min-height: 320px; max-width: 420px; width: 100%;background-color: rgb(190, 189, 189);">
 
             <!-- Header -->
             <div class="p-1 bg-azul text-white d-flex justify-content-between align-items-center w-100 rounded">
