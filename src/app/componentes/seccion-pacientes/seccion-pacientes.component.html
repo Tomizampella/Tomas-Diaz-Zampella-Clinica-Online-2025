@@ -60,7 +60,8 @@
                 </div>
                 <ng-template #sinResultados>
                     <div *ngIf="selectedPaciente === ''" class="d-flex flex-column h-100 rounded align-items-center justify-content-center" style="background-color: rgb(235, 235, 235);">
-                        <p class="text-center align-middle text-muted">Seleccione un paciente para ver los turnos realizados.</p>
+                        <p *ngIf="selectedPaciente === '' && pacientes.length > 0" class="text-center align-middle text-muted">Seleccione un paciente para ver los turnos realizados.</p>
+                        <p *ngIf="selectedPaciente === '' && pacientes.length === 0" class="text-center align-middle text-muted">Todavía no tenes ningún turno finalizado.</p>
                     </div>
                 </ng-template>
 
