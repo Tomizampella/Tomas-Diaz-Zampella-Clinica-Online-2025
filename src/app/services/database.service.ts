@@ -421,4 +421,45 @@ async guardarCalificacionAtencion(id_turno: string, calificacion: string) {
   }
 }
 
+async traerTodosLosHorariosPorEspecialista(usuarioId: string) {
+    const { data, error } = await this.sb.supabase
+      .from('disponibilidad_especialistas')
+      .select('*')
+      .eq('usuario_id', usuarioId)
+    if (error) {
+      console.error('Error al traer todos los horarios del especialista:', error.message);
+      return [];
+    }
+    return data;
+  }
+async eliminarDisponibilidadEspecialista(horario_id: string) {
+  const { data, error } = await this.sb.supabase
+    .from('disponibilidad_especialistas')
+    .delete()
+    .eq('id', horario_id);
+
+  if (error) {
+      console.error("Error al eliminar disponibilidad:", error.message);
+      Swal.fire({
+        title: "Error",
+        text: "Ocurrió un problema al eliminar la disponibilidad.",
+        icon: "error",
+        confirmButtonText: "Ok",
+        scrollbarPadding: false
+      });
+      return false;
+    }
+
+    Swal.fire({
+      title: "Éxito",
+      text: "Disponibilidad eliminada correctamente.",
+      icon: "success",
+      confirmButtonText: "OK",
+      scrollbarPadding: false
+    });
+
+  return true;
+}
+
+
 }

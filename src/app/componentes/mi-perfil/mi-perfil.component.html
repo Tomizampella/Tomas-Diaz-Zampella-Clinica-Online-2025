@@ -63,58 +63,96 @@
     </div>
   </div>
 
-  <div *ngIf="modo === 'horarios'"
-    class="row-custom-width chat-box shadow-custom rounded overflow-hidden d-flex flex-column"
-    style="width: 500px; height: 420px;">
-    <!-- Header -->
-    <div class="p-1 bg-azul text-white d-flex justify-content-between align-items-center">
-      <strong class="ms-2">Mis horarios</strong>
-      <button class="btn btn-success me-2" (click)="mostrarPerfil()">Mi perfil</button>
+  <div *ngIf="modo === 'horarios'" class="d-flex gap-3 align-items-start"> <!-- NUEVO CONTENEDOR -->
+    <div class="row-custom-width chat-box shadow-custom rounded overflow-hidden d-flex flex-column"
+      style="width: 500px; height: 420px;">
+      <!-- Header -->
+      <div class="p-1 bg-azul text-white d-flex justify-content-between align-items-center">
+        <strong class="ms-2">Mis horarios</strong>
+        <button class="btn btn-success me-2" (click)="mostrarPerfil()">Mi perfil</button>
+      </div>
+
+      <!-- Contenido -->
+      <div class="flex-grow-1 overflow-hidden p-4 d-flex flex-column align-items-center justify-content-center"
+        style="background-color: #f8f9fa;">
+
+        <!-- Selección de Especialidad -->
+        <div class="mb-3 w-100 h-100">
+          <p class="mb-1 text-muted small">Especialidad:</p>
+          <div class="d-flex flex-wrap gap-2 justify-content-center">
+            <button *ngFor="let esp of objUsuario.especialidades" type="button"
+              class="btn btn-outline-primary btn-especialidad" [class.active]="selectedEspecialidad === esp"
+              (click)="selectEspecialidad(esp)">
+              {{ esp }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Selección de Día -->
+        <div class="mb-3 w-100 h-100">
+          <p class="mb-1 text-muted small">Día:</p>
+          <div class="d-flex gap-2 justify-content-center">
+            <button *ngFor="let d of dias; let i = index" type="button" class="btn btn-outline-primary btn-square"
+              [class.active]="selectedDia === i+1" (click)="selectDia(i+1)">
+              {{ d }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Selección de Franja Horaria -->
+        <div class="mb-3 w-100 h-100">
+          <p class="mb-1 text-muted small">Horario:</p>
+          <div class="d-flex flex-wrap gap-2 justify-content-center">
+            <button *ngFor="let h of horarios" type="button" class="btn btn-outline-primary btn-square-large"
+              [class.active]="selectedHorario === h" (click)="selectHorario(h)">
+              {{ h.label }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Botón Guardar -->
+        <div class="w-100 ">
+          <button class="btn btn-primary w-100" [disabled]="!canGuardar()" (click)="guardarHorario()">
+            Guardar
+          </button>
+        </div>
+      </div>
+
     </div>
-
-    <!-- Contenido -->
-    <div class="flex-grow-1 overflow-hidden p-4 d-flex flex-column align-items-center justify-content-center"
-      style="background-color: #f8f9fa;">
-
-      <!-- Selección de Especialidad -->
-      <div class="mb-3 w-100 h-100">
-        <p class="mb-1 text-muted small">Especialidad:</p>
-        <div class="d-flex flex-wrap gap-2 justify-content-center">
-          <button *ngFor="let esp of objUsuario.especialidades" type="button"
-            class="btn btn-outline-primary btn-especialidad" [class.active]="selectedEspecialidad === esp"
-            (click)="selectEspecialidad(esp)">
-            {{ esp }}
-          </button>
-        </div>
+    <!-- ventana a la derecha del contenedor de selector de horarios -->
+    <div class="row-custom-width chat-box shadow-custom rounded overflow-hidden d-flex flex-column"
+      style="width: 250px; height: 210px;">
+      <!-- Header -->
+      <div class="p-1 bg-azul text-white d-flex justify-content-between align-items-center">
+        <strong class="ms-2">Horarios guardados</strong>
       </div>
-
-      <!-- Selección de Día -->
-      <div class="mb-3 w-100 h-100">
-        <p class="mb-1 text-muted small">Día:</p>
-        <div class="d-flex gap-2 justify-content-center">
-          <button *ngFor="let d of dias; let i = index" type="button" class="btn btn-outline-primary btn-square"
-            [class.active]="selectedDia === i+1" (click)="selectDia(i+1)">
-            {{ d }}
-          </button>
+      <!-- Contenido -->
+      <div class="flex-grow-1 overflow-hidden p-2 d-flex flex-column align-items-center justify-content-center"
+        style="background-color: #f8f9fa;">
+        <div class="h-100 w-100 d-flex flex-column">
+          <!-- Listado horarios -->
+          <div *ngIf="horariosEspecialista.length > 0; else sinResultados" class="flex-grow-1 overflow-auto rounded"
+            style="background-color: rgb(235, 235, 235);">
+            <div *ngFor="let item of horariosEspecialista; trackBy: trackById">
+              <!-- Cards -->
+              <div
+                class="flex-grow-1 overflow-hidden p-2 d-flex flex-column align-items-center m-1 shadow-custom rounded"
+                style="height: 30px; background-color: #f8f9fa;">
+                <!-- Card-contenido horarios guardados-->
+                <div class="d-flex justify-content-between align-items-center w-100 h-100">
+                  <p class="texto-horarios-guardados mb-0 ms-2">{{item.especialidad}} {{item.dia_semana}}
+                    {{item.hora_inicio}} {{item.hora_fin}}</p>
+                  <button class="btn btn-danger btn-borrar rounded me-2" (click)="eliminarHorario(item.id)">x</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ng-template #sinResultados>
+            <div *ngIf="horariosEspecialista.length > 0" class="text-center text-muted mt-5">
+              Todavía no tenes ningún horario guardado.
+            </div>
+          </ng-template>
         </div>
-      </div>
-
-      <!-- Selección de Franja Horaria -->
-      <div class="mb-3 w-100 h-100">
-        <p class="mb-1 text-muted small">Horario:</p>
-        <div class="d-flex flex-wrap gap-2 justify-content-center">
-          <button *ngFor="let h of horarios" type="button" class="btn btn-outline-primary btn-square-large"
-            [class.active]="selectedHorario === h" (click)="selectHorario(h)">
-            {{ h.label }}
-          </button>
-        </div>
-      </div>
-
-      <!-- Botón Guardar -->
-      <div class="w-100 ">
-        <button class="btn btn-primary w-100" [disabled]="!canGuardar()" (click)="guardarHorario()">
-          Guardar
-        </button>
       </div>
     </div>
   </div>
@@ -127,24 +165,25 @@
       <strong class="ms-2">Historia Clinica</strong>
       <div class="d-flex flex-row">
         <div *ngIf="especialistas?.length" class="dropdown me-2">
-                     <button class="btn btn-danger dropdown-toggle text-light" type="button" id="especialistasDropdown"
-                         data-bs-toggle="dropdown" aria-expanded="false">
-                         Exportar pdf
-                     </button>
-                     <ul class="dropdown-menu" aria-labelledby="especialistasDropdown"
-                         style="max-height: 200px; overflow-y: auto;">
-                         <li>
-                          <a class="dropdown-item" href="#" (click)="generarPdf('todos'); $event.preventDefault()">Todos</a>
-                         </li>
-                         <li *ngFor="let item of especialistas">
-                             <a class="dropdown-item" href="#" (click)="generarPdf(item.id, item.nombre, item.apellido); $event.preventDefault()">
-                                 {{ item.nombre }} {{ item.apellido }}
-                             </a>
-                         </li>
-                     </ul>
-                 </div>
-                 <button class="btn btn-success me-2" (click)="mostrarPerfil()">Mi perfil</button>
-                </div>
+          <button class="btn btn-danger dropdown-toggle text-light" type="button" id="especialistasDropdown"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Exportar pdf
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="especialistasDropdown"
+            style="max-height: 200px; overflow-y: auto;">
+            <li>
+              <a class="dropdown-item" href="#" (click)="generarPdf('todos'); $event.preventDefault()">Todos</a>
+            </li>
+            <li *ngFor="let item of especialistas">
+              <a class="dropdown-item" href="#"
+                (click)="generarPdf(item.id, item.nombre, item.apellido); $event.preventDefault()">
+                {{ item.nombre }} {{ item.apellido }}
+              </a>
+            </li>
+          </ul>
+        </div>
+        <button class="btn btn-success me-2" (click)="mostrarPerfil()">Mi perfil</button>
+      </div>
     </div>
 
     <!-- Contenido -->
@@ -153,55 +192,61 @@
       <div class="h-100 w-100 d-flex flex-column">
         @if (turnos.length > 0) {
         <!-- Listado Turnos -->
-        <div class="flex-grow-1 overflow-auto rounded d-flex flex-column align-items-center" style="background-color: rgb(235, 235, 235);">
+        <div class="flex-grow-1 overflow-auto rounded d-flex flex-column align-items-center"
+          style="background-color: rgb(235, 235, 235);">
           @for (item of turnos; track item.id) {
           <div class="flex-grow-1 overflow-hidden p-2 d-flex flex-column align-items-center m-3 shadow-custom rounded"
-             style="min-height: 320px; max-width: 420px; width: 100%;background-color: rgb(190, 189, 189);">
+            style="min-height: 320px; max-width: 420px; width: 100%;background-color: rgb(190, 189, 189);">
 
             <!-- Header -->
             <div class="p-1 bg-azul text-white d-flex justify-content-between align-items-center w-100 rounded">
               <strong class="ms-2">{{ formatearFecha(item.fecha) }} {{ formatHorario(item.hora) }}</strong>
-              
+
             </div>
             <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center h-100 w-100">
 
 
-            <!-- Especialidad y Especialista (misma fila) -->
-            <div class="d-flex justify-content-between align-items-center h-100 w-100  px-3  m-2">
-              <p class="mb-0 texto-historia h-100"><strong>Especialidad:</strong> {{ item.especialidad }}</p>
-              <p class="mb-0 texto-historia h-100"><strong>Especialista:</strong> {{ item.especialista?.nombre }} {{
-                item.especialista?.apellido }}</p>
-            </div>
-
-            <hr class="w-100 my-2 h-100" />
-
-            <!-- Diagnóstico -->
-            <div class="  px-3 w-100 h-100 m-2">
-              <p class="mb-0 texto-historia h-100"><strong>Diagnóstico:</strong> {{ item.comentario }}</p>
-            </div>
-
-            <hr class="w-100 my-2 h-100" />
-
-            <!-- Datos consulta -->
-            <div class="d-flex justify-content-between align-items-center w-100 px-3 pt-2 h-100 " *ngIf="item.datos_consulta_parseado">
-              <div class="text-center px-3 h-100">
-                <p class=" mb-1 texto-historia"><strong>Altura:</strong> {{ item.datos_consulta_parseado.altura }}</p>
-                <p class="mb-1 texto-historia"><strong>Peso:</strong> {{ item.datos_consulta_parseado.peso }}</p>
-                <p class="mb-1 texto-historia"><strong>Temperatura:</strong> {{ item.datos_consulta_parseado.temperatura }}</p>
-                <p class="mb-1 texto-historia"><strong>Presión:</strong> {{ item.datos_consulta_parseado.presion }}</p>
-
+              <!-- Especialidad y Especialista (misma fila) -->
+              <div class="d-flex justify-content-between align-items-center h-100 w-100  px-3  m-2">
+                <p class="mb-0 texto-historia h-100"><strong>Especialidad:</strong> {{ item.especialidad }}</p>
+                <p class="mb-0 texto-historia h-100"><strong>Especialista:</strong> {{ item.especialista?.nombre }} {{
+                  item.especialista?.apellido }}</p>
               </div>
-              <div class="text-center px-3 h-100">
-                <p *ngIf="item.datos_consulta_parseado.extras" class="mb-1 texto-historia"><strong>Datos adicionales:</strong></p>
-  
-                <ng-container *ngIf="item.datos_consulta_parseado.extras">
-                  <p *ngFor="let clave of objectKeys(item.datos_consulta_parseado.extras)" class="mb-1 texto-historia">
-                    <strong>{{ clave }}:</strong> {{ item.datos_consulta_parseado.extras[clave] }}
+
+              <hr class="w-100 my-2 h-100" />
+
+              <!-- Diagnóstico -->
+              <div class="  px-3 w-100 h-100 m-2">
+                <p class="mb-0 texto-historia h-100"><strong>Diagnóstico:</strong> {{ item.comentario }}</p>
+              </div>
+
+              <hr class="w-100 my-2 h-100" />
+
+              <!-- Datos consulta -->
+              <div class="d-flex justify-content-between align-items-center w-100 px-3 pt-2 h-100 "
+                *ngIf="item.datos_consulta_parseado">
+                <div class="text-center px-3 h-100">
+                  <p class=" mb-1 texto-historia"><strong>Altura:</strong> {{ item.datos_consulta_parseado.altura }}</p>
+                  <p class="mb-1 texto-historia"><strong>Peso:</strong> {{ item.datos_consulta_parseado.peso }}</p>
+                  <p class="mb-1 texto-historia"><strong>Temperatura:</strong> {{
+                    item.datos_consulta_parseado.temperatura }}</p>
+                  <p class="mb-1 texto-historia"><strong>Presión:</strong> {{ item.datos_consulta_parseado.presion }}
                   </p>
-                </ng-container>
 
+                </div>
+                <div class="text-center px-3 h-100">
+                  <p *ngIf="item.datos_consulta_parseado.extras" class="mb-1 texto-historia"><strong>Datos
+                      adicionales:</strong></p>
+
+                  <ng-container *ngIf="item.datos_consulta_parseado.extras">
+                    <p *ngFor="let clave of objectKeys(item.datos_consulta_parseado.extras)"
+                      class="mb-1 texto-historia">
+                      <strong>{{ clave }}:</strong> {{ item.datos_consulta_parseado.extras[clave] }}
+                    </p>
+                  </ng-container>
+
+                </div>
               </div>
-            </div>
             </div>
           </div>
           }

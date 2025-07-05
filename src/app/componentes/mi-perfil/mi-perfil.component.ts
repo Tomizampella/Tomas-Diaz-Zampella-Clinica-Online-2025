@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { variable64 } from "./imagen-base64";
+import { RealtimeChannel } from '@supabase/supabase-js';
 
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
@@ -31,6 +32,10 @@ export class MiPerfilComponent {
   rolUsuario: string = '';
   idUsuario: string = '';
   turnos: any[] = [];
+
+  //Para mostrar los horarios especialista
+  horariosEspecialista: any[] = [];
+  canalHorarios: RealtimeChannel | null = null;
 
   especialistas: { id: string; nombre: string; apellido: string }[] = [];
   turnosPorId: { [especialista_id: string]: any[] } = {};
@@ -64,7 +69,17 @@ export class MiPerfilComponent {
     this.objUsuario = await this.db.traerUsuario(this.correoUsuario);
     if (this.rolUsuario === 'paciente') {
       this.obtenerTurnos();
+    } else if (this.rolUsuario === 'especialista') {
+      this.obtenerHorariosGuardados();
     }
+
+    if (this.idUsuario !== '') {
+      this.escucharTablaHorarios();
+    }
+  }
+
+   ngOnDestroy() {
+    this.canalHorarios?.unsubscribe();
   }
 
   agruparPorId(turnos: any[]): { [especialista_id: string]: any[] } {
@@ -139,6 +154,7 @@ export class MiPerfilComponent {
       this.turnosPorId = this.agruparPorId(this.turnos);
     }
   }
+
 
   formatHorario(h: string): string {
     const [hh, mm] = h.split(':');
@@ -316,6 +332,52 @@ export class MiPerfilComponent {
   this.especialistas = Array.from(especialistasMap.values());
   console.log('especialistas', this.especialistas);
 }
+
+  async  obtenerHorariosGuardados(){
+    this.horariosEspecialista = await this.db.traerTodosLosHorariosPorEspecialista(this.auth.idUsuario);
+  }
+
+trackById(index: number, item: any) {
+    return item.id;
+  }
+
+  async eliminarHorario(id_horario:string){
+    const eliminado = await this.db.eliminarDisponibilidadEspecialista(id_horario);
+    if(eliminado){
+      const index = this.horariosEspecialista.findIndex(h => h.id === id_horario);
+            if (index !== -1) {
+              console.log("encontre el indice: ", this.horariosEspecialista[index]);
+              this.horariosEspecialista.splice(index, 1);
+            }
+    }
+  }
+
+  escucharTablaHorarios() {
+    this.canalHorarios = this.auth.sb.supabase
+      .channel('canal-horarios')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'disponibilidad_especialistas',
+          filter: `usuario_id=eq.${this.idUsuario}`,
+        },
+        async (cambios: any) => {
+          console.log('Evento recibido:', cambios.eventType);
+          if(cambios.eventType === 'UPDATE'){
+            const id_turno_valor_nuevo = cambios.new['id'];
+            const index = this.horariosEspecialista.findIndex(h => h.id === id_turno_valor_nuevo);
+            if (index !== -1) {
+              this.horariosEspecialista[index] = cambios.new;
+            }
+          }else if(cambios.eventType === 'INSERT'){
+            this.horariosEspecialista.push(cambios.new);
+          }
+        }
+      )
+      .subscribe();
+  }
 
 
 
