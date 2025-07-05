@@ -375,7 +375,8 @@ async traerTurnosRealizadosPorRol(columna:string, usuario_id:string) {
       calificacion_atencion,
       datos_consulta,
       especialista_id,
-      paciente:usuarios_clinica!paciente_id (nombre, apellido, dni, obra_social),
+      paciente_id,
+      paciente:usuarios_clinica!paciente_id (nombre, apellido, dni, obra_social, foto_1),
       especialista:usuarios_clinica!especialista_id (nombre, apellido)
     `)
     .eq('estado', 'realizado')
