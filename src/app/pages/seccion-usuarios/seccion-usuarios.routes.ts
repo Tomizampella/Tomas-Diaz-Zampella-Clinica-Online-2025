@@ -7,5 +7,6 @@ const routes: Routes = [
     { path: 'administrar-especialistas', loadComponent: () => import("../../componentes/administrar-especialistas/administrar-especialistas.component").then((archivo) => archivo.AdministrarEspecialistasComponent) },
      { path: 'solicitar-turno', loadComponent: () => import("../../componentes/solicitar-turno/solicitar-turno.component").then((archivo) => archivo.SolicitarTurnoComponent) },
      { path: 'turnos', loadComponent: () => import("../../componentes/turnos-administrador/turnos-administrador.component").then((archivo) => archivo.TurnosAdministradorComponent) },
-]
+     { path: 'graficos', loadComponent: () => import("../../componentes/graficos/graficos.component").then((archivo) => archivo.GraficosComponent) },
+]   
 export {routes};

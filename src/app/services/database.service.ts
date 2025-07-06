@@ -461,5 +461,16 @@ async eliminarDisponibilidadEspecialista(horario_id: string) {
   return true;
 }
 
+async guardarLogIngreso(usuario_id: string, usuario_nombre: string, usuario_apellido: string) {
+    const { data, error } = await this.sb.supabase.from("log_ingresos").insert({ usuario_id, usuario_nombre, usuario_apellido});
+    if (error) {
+    console.error('Error al guardar log ingreso al sistema:', error);
+    return false;
+  } else {
+    console.log('Log ingreso al sistema guardado correctamente:', data);
+    return true;
+  }
+  }
+
 
 }

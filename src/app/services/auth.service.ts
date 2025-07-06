@@ -16,6 +16,7 @@ export class AuthService {
   nombreUsuario: string = '';
   usuarioActual: User | null = null;
   primerInicio: boolean = false;
+  guardadoDeLog: boolean = false;
   isSesionVerificada: boolean = false;
   rolUsuario: string = '';
   correoUsuario:string = '';
@@ -44,6 +45,11 @@ export class AuthService {
               this.rolUsuario = data.rol;
               this.correoUsuario = data.email;
               this.objUsuario = data;
+
+              if(!this.guardadoDeLog && this.objUsuario){
+                this.db.guardarLogIngreso(this.objUsuario.id, this.objUsuario.nombre, this.objUsuario.apellido);
+                this.guardadoDeLog = true;
+              }
               
             });
         }
@@ -89,6 +95,11 @@ export class AuthService {
               this.rolUsuario = data.rol;
               this.correoUsuario = data.email;
               this.objUsuario = data;
+
+              if(!this.guardadoDeLog && this.objUsuario){
+                this.db.guardarLogIngreso(this.objUsuario.id, this.objUsuario.nombre, this.objUsuario.apellido);
+                this.guardadoDeLog = true;
+              }
              
             });
         }
