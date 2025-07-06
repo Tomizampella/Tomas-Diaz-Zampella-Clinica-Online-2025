@@ -27,3 +27,43 @@
     font-size: 0.8rem;
 }
 
+.grafico-container {
+  width: 100%;
+     /* cambias este valor para ajustar la altura */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grafico-container canvas {
+  width: 100% !important;  /* fuerza al canvas a usar todo el ancho */
+  height: 100% !important; /* fuerza al canvas a usar toda la altura */
+}
+
+.paciente{
+  background-color: #3498db;
+}
+
+.especialista{
+  background-color: #2ecc71;
+}
+
+.administrador{
+  background-color: #f1c40f;
+}
+
+.texto-horarios-guardados{
+  font-size: 0.6rem;
+}
+
+.cuadrado-color {
+  width: 8px;
+  height: 8px;
+  border-radius: 3px;
+}
+
+.texto-referencia{
+  font-size: 0.8rem;
+}
+
+

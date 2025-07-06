@@ -47,7 +47,7 @@ export class AuthService {
               this.objUsuario = data;
 
               if(!this.guardadoDeLog && this.objUsuario){
-                this.db.guardarLogIngreso(this.objUsuario.id, this.objUsuario.nombre, this.objUsuario.apellido);
+                this.db.guardarLogIngreso(this.objUsuario.id, this.objUsuario.nombre, this.objUsuario.apellido, this.objUsuario.rol);
                 this.guardadoDeLog = true;
               }
               
@@ -97,7 +97,7 @@ export class AuthService {
               this.objUsuario = data;
 
               if(!this.guardadoDeLog && this.objUsuario){
-                this.db.guardarLogIngreso(this.objUsuario.id, this.objUsuario.nombre, this.objUsuario.apellido);
+                this.db.guardarLogIngreso(this.objUsuario.id, this.objUsuario.nombre, this.objUsuario.apellido, this.objUsuario.rol);
                 this.guardadoDeLog = true;
               }
              

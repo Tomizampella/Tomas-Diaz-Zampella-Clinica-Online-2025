@@ -1,82 +1,118 @@
-<div class="container-fluid" style="height: 100%;">
-  <!-- Fila superior -->
-  <div class="d-flex justify-content-between mb-1" style="gap: 1rem; height: 50%;">
-    <!-- Gráfico 1 -->
-    <div class="shadow-custom rounded" style="height: 95%; width: 320px;">
-      <div class="h-100 w-100 rounded d-flex flex-column">
-        <div class="p-1 bg-azul text-white titulo">
-          <strong class="ms-2">Gráfico 1</strong>
+<div class="d-flex flex-row w-100 align-items-center justify-content-center p-1" style="gap: 1rem; height: 100%;">
+    <!-- Columna 1: 4 gráficos (2 filas de 2) -->
+    <div class="d-flex flex-column" style="height: 100%; row-gap: 1rem;">
+        <!-- Fila superior (gráficos 1 y 2) -->
+
+
+        <div class="d-flex flex-row" style="gap: 1rem; height: 50%;">
+            <div class="shadow-custom rounded" style="height: 100%; width: 320px;">
+                <div class="h-100 w-100 rounded d-flex flex-column">
+                    <div class="p-1 bg-azul text-white titulo">
+                        <strong class="ms-2">Logs de ingreso al sistema</strong>
+                    </div>
+                    <!-- Contenido -->
+                    <div class="flex-grow-1 overflow-auto p-2 d-flex flex-column align-items-center justify-content-center rounded-abajo"
+                        style="background-color: #f8f9fa;">
+                        <div class="h-100 w-100 d-flex flex-column">
+                            <div class="w-100 mb-2 d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <div class="cuadrado-color paciente me-1"></div>
+                                    <span class="texto-referencia text-muted">Paciente</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="cuadrado-color especialista me-1"></div>
+                                    <span class="texto-referencia text-muted">Especialista</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="cuadrado-color administrador me-1"></div>
+                                    <span class="texto-referencia text-muted">Administrador</span>
+                                </div>
+                            </div>
+                            <!-- Listado horarios -->
+                            <div *ngIf="logsIngresos.length > 0; else sinResultados"
+                                class="flex-grow-1 overflow-auto rounded" style="background-color: rgb(235, 235, 235);">
+                                <div *ngFor="let item of logsIngresos; trackBy: trackById">
+                                    <!-- Cards -->
+                                    <div class="flex-grow-1 overflow-hidden p-2 d-flex flex-column align-items-center m-1 shadow-custom rounded"
+                                        [ngClass]="item.usuario_rol" style="height: 30px;">
+                                        <!-- Card-contenido horarios guardados-->
+                                        <div class="d-flex justify-content-between align-items-center w-100 h-100">
+                                            <p class="texto-horarios-guardados mb-0 ms-2">{{item.fecha_ingreso}}
+                                                {{item.usuario_nombre}}
+                                                {{item.usuario_apellido}} {{item.hora_fin}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <ng-template #sinResultados>
+                                <div *ngIf="logsIngresos.length > 0" class="text-center text-muted mt-5">
+                                    Todavía no hay ningún log de ingreso.
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <ng-container *ngIf="configs.length >= 1">
+                <div class="shadow-custom rounded" style="height: 100%; width: 320px;">
+                    <div class="h-100 w-100 rounded d-flex flex-column">
+                        <div class="p-1 bg-azul text-white titulo">
+                            <strong class="ms-2">Cantidad de turnos por día</strong>
+                        </div>
+                        <div
+                            class="flex-grow-1 bg-light p-2 d-flex align-items-center justify-content-center rounded-abajo">
+                            <canvas baseChart
+                                [data]="{ labels: configs[0].data.labels, datasets: configs[0].data.datasets }"
+                                [type]="configs[0].type" [options]="configs[0].options">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
         </div>
-        <div class="flex-grow-1 bg-light p-2 d-flex align-items-center justify-content-center rounded-abajo">
-          <div class="w-100 h-100">
-            <!-- Aquí va el gráfico 1 -->
-          </div>
+
+        <!-- Fila inferior (gráficos 3 y 4) -->
+        <div class="d-flex flex-row" style="gap: 1rem; height: 50%;">
+            <ng-container *ngFor="let cfg of configs; let i = index">
+                <ng-container *ngIf="i >= 1 && i < 3">
+                    <div class="shadow-custom rounded" style="height: 100%; width: 320px;">
+                        <div class="h-100 w-100 rounded d-flex flex-column">
+                            <div class="p-1 bg-azul text-white titulo">
+                                <strong *ngIf="i === 1" class="ms-2">Solicitados por médico último mes</strong>
+                                <strong *ngIf="i === 2" class="ms-2">Finalizados por médico último mes</strong>
+                            </div>
+                            <div
+                                class="flex-grow-1 bg-light p-2 d-flex align-items-center justify-content-center rounded-abajo">
+                                <canvas baseChart [data]="{ labels: cfg.data.labels, datasets: cfg.data.datasets }"
+                                    [type]="cfg.type" [options]="cfg.options">
+                                </canvas>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
         </div>
-      </div>
     </div>
 
-    <!-- Gráfico 2 -->
-    <div class="shadow-custom rounded " style="height: 95%; width: 320px;">
-      <div class="h-100 w-100 rounded d-flex flex-column">
-        <div class="p-1 bg-azul text-white titulo">
-          <strong class="ms-2">Gráfico 2</strong>
-        </div>
-        <div class="flex-grow-1 bg-light p-2 d-flex align-items-center justify-content-center rounded-abajo">
-          <div class="w-100 h-100">
-            <!-- Aquí va el gráfico 2 -->
-          </div>
-        </div>
-      </div>
+    <!-- Columna 2: gráfico 4 más alto -->
+    <div class="d-flex flex-column" style="height: 100%;">
+        <ng-container *ngIf="configs.length >= 4">
+            <div class="shadow-custom rounded" style="height: 100%; width: 320px;">
+                <div class="h-100 w-100 rounded d-flex flex-column">
+                    <div class="p-1 bg-azul text-white titulo">
+                        <strong class="ms-2">Cantidad de turnos por especialidad</strong>
+                    </div>
+                    <div
+                        class="flex-grow-1 bg-light p-2 d-flex align-items-center justify-content-center rounded-abajo">
+                        <canvas baseChart
+                            [data]="{ labels: configs[3].data.labels, datasets: configs[3].data.datasets }"
+                            [type]="configs[3].type" [options]="configs[3].options">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
     </div>
-
-    <!-- Gráfico 3 -->
-    <div class="shadow-custom rounded" style="height: 95%; width: 320px;">
-      <div class="h-100 w-100 rounded d-flex flex-column">
-        <div class="p-1 bg-azul text-white titulo">
-          <strong class="ms-2">Gráfico 3</strong>
-        </div>
-        <div class="flex-grow-1 bg-light p-2 d-flex align-items-center justify-content-center rounded-abajo">
-          <div class="w-100 h-100">
-            <!-- Aquí va el gráfico 3 -->
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Fila inferior -->
-  <div class="d-flex justify-content-between mb-2" style="gap: 1rem;height: 50%;">
-    <!-- Gráfico 4 -->
-    <div class="shadow-custom rounded" style="height: 95%; width: 320px;">
-      <div class="h-100 w-100 rounded d-flex flex-column">
-        <div class="p-1 bg-azul text-white titulo">
-          <strong class="ms-2">Gráfico 4</strong>
-        </div>
-        <div class="flex-grow-1 bg-light p-2 d-flex align-items-center justify-content-center rounded-abajo">
-          <div class="w-100 h-100">
-            <!-- Aquí va el gráfico 4 -->
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Gráfico 5 -->
-    <div class="shadow-custom rounded" style="height: 95%; width: 320px;">
-      <div class="h-100 w-100 rounded d-flex flex-column">
-        <div class="p-1 bg-azul text-white titulo">
-          <strong class="ms-2">Gráfico 5</strong>
-        </div>
-        <div class="flex-grow-1 bg-light p-2 d-flex align-items-center justify-content-center rounded-abajo">
-          <div class="w-100 h-100">
-            <!-- Aquí va el gráfico 5 -->
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Celda vacía -->
-    <div style="height: 95%; width: 320px;">
-      <!-- Vacío intencional -->
-    </div>
-  </div>
 </div>

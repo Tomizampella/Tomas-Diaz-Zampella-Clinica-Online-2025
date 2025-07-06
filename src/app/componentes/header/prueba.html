@@ -1,43 +1,50 @@
-<div class="row-custom-width chat-box shadow-custom rounded overflow-hidden d-flex flex-column"
-    style="width: 250px; height: 210px;">
-    <!-- Header -->
-    <div class="p-1 bg-azul text-white d-flex justify-content-between align-items-center">
-        <strong class="ms-2">Horarios guardados</strong>
-    </div>
-    <!-- Contenido -->
-    <div class="flex-grow-1 overflow-hidden p-3 d-flex flex-column align-items-center justify-content-center"
-        style="background-color: #f8f9fa;">
-        <div class="h-100 w-100 d-flex flex-column">
-            <!-- Listado horarios -->
-            <div *ngIf="filteredTurnos.length > 0; else sinResultados" class="flex-grow-1 overflow-auto p-4 rounded"
-                style="background-color: rgb(235, 235, 235);">
-                <div *ngFor="let item of filteredTurnos; trackBy: trackById">
-                    <!-- Cards -->
-                    <div class="flex-grow-1 overflow-hidden p-2 d-flex flex-column align-items-center  m-3 shadow-custom rounded"
-                        [ngClass]="item.estado" style="height: 100px;">
-                        <!-- Card-header -->
-                        <div
-                            class="p-1 bg-azul text-white d-flex justify-content-between align-items-center w-100 rounded">
-                            <strong class="ms-2">{{formatearFecha(item.fecha)}}
-                                {{formatHorario(item.hora)}}</strong>
-                            <strong class="me-2"> {{item.estado}}</strong>
+<div class="container-fluid" style="height: 100%;">
+    <!-- Fila superior -->
+    <div class="d-flex justify-content-between mb-1" style="gap: 1rem; height: 50%;">
+        <!-- Gráficos 1–3 -->
+        <ng-container *ngFor="let cfg of configs; let i = index">
+            <ng-container *ngIf="i < 3">
+                <div class="shadow-custom rounded" style="height: 95%; width: 320px;">
+                    <div class="h-100 w-100 rounded d-flex flex-column">
+                        <div class="p-1 bg-azul text-white titulo">
+                            <strong class="ms-2">Gráfico {{ i + 1 }}</strong>
                         </div>
-                        <!-- Card-contenido -->
-                        <div class="p-2 d-flex flex-column align-items-center justify-content-center h-100">
-                            <p><strong>Especialidad:</strong> {{item.especialidad}}</p>
-                            <p *ngIf="rolUsuario === 'paciente'"><strong>Especialista:</strong>
-                                {{item.especialista?.nombre}} {{item.especialista?.apellido}}</p>
-                            <p *ngIf="rolUsuario === 'especialista'"><strong>Paciente:</strong>
-                                {{item.paciente.nombre}} {{item.paciente.apellido}}</p>
+                        <div
+                            class="flex-grow-1 bg-light p-2 d-flex align-items-center justify-content-center rounded-abajo">
+                            <canvas baseChart [data]="{ labels: cfg.data.labels, datasets: cfg.data.datasets }"
+                                [type]="cfg.type" [options]="cfg.options">
+                            </canvas>
                         </div>
                     </div>
                 </div>
-            </div>
-            <ng-template #sinResultados>
-                <div *ngIf="searchTerm.length > 0" class="text-center text-muted mt-5">
-                    No se encontraron turnos que coincidan con "{{ searchTerm }}"
+            </ng-container>
+        </ng-container>
+    </div>
+
+    <!-- Fila inferior -->
+    <div class="d-flex justify-content-between mb-2" style="gap: 1rem; height: 50%;">
+        <!-- Gráficos 4–5 -->
+        <ng-container *ngFor="let cfg of configs; let i = index">
+            <ng-container *ngIf="i >= 3 && i < 5">
+                <div class="shadow-custom rounded" style="height: 95%; width: 320px;">
+                    <div class="h-100 w-100 rounded d-flex flex-column">
+                        <div class="p-1 bg-azul text-white titulo">
+                            <strong class="ms-2">Gráfico {{ i + 1 }}</strong>
+                        </div>
+                        <div
+                            class="flex-grow-1 bg-light p-2 d-flex align-items-center justify-content-center rounded-abajo">
+                            <canvas baseChart [data]="{ labels: cfg.data.labels, datasets: cfg.data.datasets }"
+                                [type]="cfg.type" [options]="cfg.options">
+                            </canvas>
+                        </div>
+                    </div>
                 </div>
-            </ng-template>
+            </ng-container>
+        </ng-container>
+
+        <!-- Celda vacía -->
+        <div style="height: 95%; width: 320px;">
+            <!-- Vacío intencional -->
         </div>
     </div>
 </div>

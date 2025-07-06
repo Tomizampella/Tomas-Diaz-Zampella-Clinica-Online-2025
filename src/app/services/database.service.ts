@@ -461,8 +461,8 @@ async eliminarDisponibilidadEspecialista(horario_id: string) {
   return true;
 }
 
-async guardarLogIngreso(usuario_id: string, usuario_nombre: string, usuario_apellido: string) {
-    const { data, error } = await this.sb.supabase.from("log_ingresos").insert({ usuario_id, usuario_nombre, usuario_apellido});
+async guardarLogIngreso(usuario_id: string, usuario_nombre: string, usuario_apellido: string, usuario_rol:string) {
+    const { data, error } = await this.sb.supabase.from("log_ingresos").insert({ usuario_id, usuario_nombre, usuario_apellido, usuario_rol});
     if (error) {
     console.error('Error al guardar log ingreso al sistema:', error);
     return false;
@@ -472,5 +472,15 @@ async guardarLogIngreso(usuario_id: string, usuario_nombre: string, usuario_apel
   }
   }
 
+async traerTodosLosLogsDeIngreso() {
+    const { data, error } = await this.sb.supabase
+      .from('log_ingresos')
+      .select('*')
+    if (error) {
+      console.error('Error al traer todos los logs de ingreso al sistema:', error.message);
+      return [];
+    }
+    return data;
+  }
 
 }
