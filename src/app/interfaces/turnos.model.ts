@@ -16,15 +16,15 @@ export interface Disponibilidad {
   id: string;
   usuario_id: string;
   especialidad: string;
-  dia_semana: number;   // 1–7
-  hora_inicio: string;  // 'HH:MM'
-  hora_fin: string;     // 'HH:MM'
+  dia_semana: number;   
+  hora_inicio: string;  
+  hora_fin: string;     
 }
 
 export interface TurnoEntry {
   paciente_id: string;
   especialista_id: string;
   especialidad: string;
-  fecha: string;   // 'YYYY-MM-DD'
-  hora: string;    // 'HH:MM'
+  fecha: string;   
+  hora: string;  
 }

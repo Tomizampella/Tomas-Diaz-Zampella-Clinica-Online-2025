@@ -10,12 +10,16 @@ import { saveAs } from 'file-saver'; // si corre en navegador
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { variable64 } from "../mi-perfil/imagen-base64";
+import { FechaConDiaPipe } from '../../pipes/fecha-con-dia.pipe';
+import { DrEnElNombrePipe } from '../../pipes/dr-en-el-nombre.pipe';
+import { TextoSubrayadoDirective } from '../../directives/texto-subrayado.directive';
+import { TextoZoomDirective } from '../../directives/texto-zoom.directive';
 
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'app-graficos',
-  imports: [CommonModule, BaseChartDirective],
+  imports: [CommonModule, BaseChartDirective, FechaConDiaPipe, DrEnElNombrePipe, TextoSubrayadoDirective, TextoZoomDirective],
   templateUrl: './graficos.component.html',
   styleUrl: './graficos.component.css'
 })

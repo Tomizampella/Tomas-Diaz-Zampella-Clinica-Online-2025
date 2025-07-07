@@ -3,10 +3,12 @@ import { DatabaseService } from '../../services/database.service';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
+import { TextoTachadoPipe } from '../../pipes/texto-tachado.pipe';
+import { TextoCursivaDirective } from '../../directives/texto-cursiva.directive';
 
 @Component({
   selector: 'app-turnos-administrador',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TextoTachadoPipe, TextoCursivaDirective],
   templateUrl: './turnos-administrador.component.html',
   styleUrl: './turnos-administrador.component.css'
 })

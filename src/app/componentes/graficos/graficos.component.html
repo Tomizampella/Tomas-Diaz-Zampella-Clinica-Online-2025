@@ -50,10 +50,9 @@
                                         [ngClass]="item.usuario_rol" style="height: 30px;">
 
                                         <div class="d-flex justify-content-between align-items-center w-100 h-100">
-                                            <p class="texto-horarios-guardados mb-0 ms-2">
-                                                {{formatearFechaHora(item.fecha_ingreso)}}</p>
-                                            <p class="texto-horarios-guardados mb-0 ms-2">{{item.usuario_nombre}}
-                                                {{item.usuario_apellido}}</p>
+                                            <p appTextoZoom class="texto-horarios-guardados mb-0 ms-2">
+                                                {{item.fecha_ingreso | fechaConDia}}</p>
+                                            <p appTextoSubrayado class="texto-horarios-guardados mb-0 ms-2">{{item.usuario_nombre | drEnElNombre : item.usuario_rol }} {{item.usuario_apellido}}</p>
 
                                         </div>
                                     </div>
