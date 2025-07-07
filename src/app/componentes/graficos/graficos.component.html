@@ -1,6 +1,6 @@
 <div class="d-flex flex-row w-100 align-items-center justify-content-center p-1" style="gap: 1rem; height: 100%;">
     <!-- Columna 1: 4 gráficos (2 filas de 2) -->
-    <div class="d-flex flex-column" style="height: 100%; row-gap: 1rem;">
+    <div class="d-flex flex-column" style="height: 100%;row-gap: 0.7rem;">
         <!-- Fila superior (gráficos 1 y 2) -->
 
 
@@ -9,6 +9,7 @@
                 <div class="h-100 w-100 rounded d-flex flex-column">
                     <div class="p-1 bg-azul text-white titulo">
                         <strong class="ms-2">Logs de ingreso al sistema</strong>
+                        <button class="btn btn-success me-2"(click)="descargarExcelEstadisticas()">Excel</button>
                     </div>
                     <!-- Contenido -->
                     <div class="flex-grow-1 overflow-auto p-2 d-flex flex-column align-items-center justify-content-center rounded-abajo"
@@ -28,18 +29,18 @@
                                     <span class="texto-referencia text-muted">Administrador</span>
                                 </div>
                             </div>
-                            <!-- Listado horarios -->
+                            
                             <div *ngIf="logsIngresos.length > 0; else sinResultados"
                                 class="flex-grow-1 overflow-auto rounded" style="background-color: rgb(235, 235, 235);">
                                 <div *ngFor="let item of logsIngresos; trackBy: trackById">
-                                    <!-- Cards -->
+                                    
                                     <div class="flex-grow-1 overflow-hidden p-2 d-flex flex-column align-items-center m-1 shadow-custom rounded"
                                         [ngClass]="item.usuario_rol" style="height: 30px;">
-                                        <!-- Card-contenido horarios guardados-->
+                                        
                                         <div class="d-flex justify-content-between align-items-center w-100 h-100">
-                                            <p class="texto-horarios-guardados mb-0 ms-2">{{item.fecha_ingreso}}
-                                                {{item.usuario_nombre}}
-                                                {{item.usuario_apellido}} {{item.hora_fin}}</p>
+                                            <p class="texto-horarios-guardados mb-0 ms-2">{{formatearFechaHora(item.fecha_ingreso)}}</p>
+                                            <p class="texto-horarios-guardados mb-0 ms-2">{{item.usuario_nombre}} {{item.usuario_apellido}}</p>
+
                                         </div>
                                     </div>
                                 </div>
@@ -59,6 +60,7 @@
                     <div class="h-100 w-100 rounded d-flex flex-column">
                         <div class="p-1 bg-azul text-white titulo">
                             <strong class="ms-2">Cantidad de turnos por día</strong>
+                            <button class="btn btn-danger me-2"(click)="generarPdf()">Pdf</button>
                         </div>
                         <div
                             class="flex-grow-1 bg-light p-2 d-flex align-items-center justify-content-center rounded-abajo">
