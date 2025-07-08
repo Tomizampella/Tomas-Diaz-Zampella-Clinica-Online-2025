@@ -111,7 +111,7 @@ export class SolicitarTurnoComponent {
 
   selectHorario(h: Horario) {
     this.selectedHorario = h;
-    console.log(this.selectedPaciente);
+    
   }
 
   selectPaciente(id_paciente: string) {
@@ -184,7 +184,7 @@ export class SolicitarTurnoComponent {
 
   async obtenerPacientes() {
     this.pacientes = await this.db.traerTodosLosPacientes();
-    console.log(this.pacientes);
+    
   }
 
 

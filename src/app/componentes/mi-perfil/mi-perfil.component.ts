@@ -330,7 +330,7 @@ export class MiPerfilComponent {
   }
 
   this.especialistas = Array.from(especialistasMap.values());
-  console.log('especialistas', this.especialistas);
+  
 }
 
   async  obtenerHorariosGuardados(){
@@ -346,7 +346,7 @@ trackById(index: number, item: any) {
     if(eliminado){
       const index = this.horariosEspecialista.findIndex(h => h.id === id_horario);
             if (index !== -1) {
-              console.log("encontre el indice: ", this.horariosEspecialista[index]);
+              
               this.horariosEspecialista.splice(index, 1);
             }
     }
@@ -364,7 +364,7 @@ trackById(index: number, item: any) {
           filter: `usuario_id=eq.${this.idUsuario}`,
         },
         async (cambios: any) => {
-          console.log('Evento recibido:', cambios.eventType);
+          
           if(cambios.eventType === 'UPDATE'){
             const id_turno_valor_nuevo = cambios.new['id'];
             const index = this.horariosEspecialista.findIndex(h => h.id === id_turno_valor_nuevo);

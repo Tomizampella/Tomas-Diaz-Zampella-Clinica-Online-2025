@@ -51,7 +51,7 @@ agruparPorRol(usuarios: any[]): { [rol: string]: any[] } {
 
   async descargarExcelPorPaciente(paciente: any) {
   this.turnos = await this.db.traerTurnosRealizadosPorRol('paciente_id', paciente.id);
-  console.log('turnos desde la funcion descargarExcelPorPaciente: ', this.turnos);
+  
 
   if (this.turnos && this.turnos.length > 0) {
     const datosFormateados = this.turnos.map(item => ({
@@ -63,7 +63,7 @@ agruparPorRol(usuarios: any[]): { [rol: string]: any[] } {
     }));
 
     const nombreApellidoSheet = `${paciente.nombre}_${paciente.apellido}`;
-    const nombreSheet = `Listado de turnos de ${nombreApellidoSheet}`;
+    const nombreSheet = `Listado de turnos`;
 
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(datosFormateados);
     const workbook: XLSX.WorkBook = {

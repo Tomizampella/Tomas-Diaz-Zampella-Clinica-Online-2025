@@ -45,7 +45,7 @@ export class MisTurnosComponent {
 
   async obtenerTurnos() {
     this.turnos = await this.db.traerTodosLosTurnosPorRol(this.columnaBusqueda, this.auth.idUsuario);
-    console.log('Turnos: ', this.turnos);
+    
   }
 
   escucharTablaTurnos() {
@@ -60,7 +60,7 @@ export class MisTurnosComponent {
           filter: `${this.columnaBusqueda}=eq.${this.idUsuario}`,
         },
         async (cambios: any) => {
-          console.log('Evento recibido:', cambios);
+          
           const id_turno_valor_nuevo = cambios.new['id'];
           let rol_a_buscar = '';
           let id_a_buscar = '';
@@ -100,6 +100,9 @@ export class MisTurnosComponent {
   return this.turnos.filter(item => {
     // Buscar en especialidad
     if (item.especialidad.toLowerCase().includes(term)) return true;
+
+    // Buscar en Comentario
+    if (item.comentario.toLowerCase().includes(term)) return true;
 
     // Buscar en nombres según rol
     const nombre = this.rolUsuario === 'paciente'
@@ -382,12 +385,7 @@ export class MisTurnosComponent {
       if (result.isConfirmed && result.value) {
         const { atencion, recomienda, higiene } = result.value;
 
-        console.log('Datos de la encuesta:', {
-          turno_id: turno.id,
-          atencion,
-          recomienda,
-          higiene_consultorio: higiene
-        });
+        
 
         const guardado = await this.db.guardarEncuesta(turno.id, atencion, recomienda, higiene);
         if (guardado) {

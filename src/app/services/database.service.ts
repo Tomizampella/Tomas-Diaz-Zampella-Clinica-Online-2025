@@ -403,7 +403,7 @@ async cambiarEstadoEncuesta(id_turno: string) {
     console.error('Error al guardar encuesta:', error);
     return false;
   } else {
-    console.log('Encuesta guardada correctamente:', data);
+
     return true;
   }
   }
@@ -467,17 +467,30 @@ async guardarLogIngreso(usuario_id: string, usuario_nombre: string, usuario_apel
     console.error('Error al guardar log ingreso al sistema:', error);
     return false;
   } else {
-    console.log('Log ingreso al sistema guardado correctamente:', data);
     return true;
   }
   }
 
 async traerTodosLosLogsDeIngreso() {
+  const { data, error } = await this.sb.supabase
+    .from('log_ingresos')
+    .select('*')
+    .order('fecha_ingreso', { ascending: true }); // ← ordena por fecha de menor a mayor
+
+  if (error) {
+    console.error('Error al traer todos los logs de ingreso al sistema:', error.message);
+    return [];
+  }
+  return data;
+}
+
+async traerResultadoEncuesta(turnoId: string) {
     const { data, error } = await this.sb.supabase
-      .from('log_ingresos')
-      .select('*')
+      .from('encuestas')
+      .select('atencion, recomienda, higiene_consultorio')
+      .eq('turno_id', turnoId)
     if (error) {
-      console.error('Error al traer todos los logs de ingreso al sistema:', error.message);
+      console.error('Error al traer el resultado de la encuesta:', error.message);
       return [];
     }
     return data;

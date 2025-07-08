@@ -49,21 +49,43 @@ export class GraficosComponent {
 
     
     {
-      const byDay = new Map<string, number>();
-      this.turnos.forEach(t => {
-        const d = new Date(t.fecha)
-          .toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit' });
-        byDay.set(d, (byDay.get(d) || 0) + 1);
-      });
-      this.configs.push({
-        type: 'line',
-        data: {
-          labels: Array.from(byDay.keys()),
-          datasets: [{ label: 'Turnos', data: Array.from(byDay.values()), borderColor: '#e74c3c', fill: false }]
-        },
-        options: { responsive: true, scales: { y: { beginAtZero: true } } }
-      });
+  const byDay = new Map<string, number>();
+  const fechaOriginales: Date[] = [];
+
+  this.turnos.forEach(t => {
+    const fecha = new Date(t.fecha);
+    const clave = fecha.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit' });
+
+    if (!byDay.has(clave)) {
+      fechaOriginales.push(fecha); // guardo la fecha original
     }
+
+    byDay.set(clave, (byDay.get(clave) || 0) + 1);
+  });
+
+  // ordenamos las fechas reales
+  fechaOriginales.sort((a, b) => a.getTime() - b.getTime());
+
+  // luego las convertimos al formato "dd/mm"
+  const fechasOrdenadas = fechaOriginales.map(f =>
+    f.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit' })
+  );
+
+  this.configs.push({
+    type: 'line',
+    data: {
+      labels: fechasOrdenadas,
+      datasets: [{
+        label: 'Turnos',
+        data: fechasOrdenadas.map(f => byDay.get(f) || 0),
+        borderColor: '#e74c3c',
+        fill: false
+      }]
+    },
+    options: { responsive: true, scales: { y: { beginAtZero: true } } }
+  });
+}
+
 
     
     {

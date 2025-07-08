@@ -15,7 +15,8 @@ import { TextoCursivaDirective } from '../../directives/texto-cursiva.directive'
 export class TurnosAdministradorComponent {
   db = inject(DatabaseService);
   turnos: any[] = [];
-  searchTerm: string = ''; 
+  resultado_encuesta: any[] = [];
+  searchTerm: string = '';
 
   ngOnInit() {
     this.obtenerTurnos();
@@ -23,10 +24,10 @@ export class TurnosAdministradorComponent {
 
   async obtenerTurnos() {
     this.turnos = await this.db.traerTodosLosTurnos();
-    console.log('Turnos: ', this.turnos);
+    
   }
 
-   /** Getter que devuelve solo los turnos que cumplen la búsqueda */
+  /** Getter que devuelve solo los turnos que cumplen la búsqueda */
   get filteredTurnos(): any[] {
     const term = this.searchTerm.trim().toLowerCase();
     if (!term) return this.turnos;
@@ -51,8 +52,8 @@ export class TurnosAdministradorComponent {
   }
 
   trackById(index: number, item: any) {
-  return item.id;
-}
+    return item.id;
+  }
 
 
   formatHorario(h: string): string {
@@ -91,6 +92,31 @@ export class TurnosAdministradorComponent {
 
       // Cambiar visualmente sin refrescar desde base de datos
       turno.estado = nuevoEstado;
+    }
+  }
+
+  verCalificacion(turno: any) {
+
+    Swal.fire({
+      title: 'Resumen del turno',
+      html: `<p><strong>Calificación:</strong> <br>${turno.calificacion_atencion}</p><hr>`,
+      confirmButtonText: 'Cerrar'
+    });
+  }
+
+  async verResultadoEncuesta(turno: any) {
+    this.resultado_encuesta = await this.db.traerResultadoEncuesta(turno.id);
+    const resultado = this.resultado_encuesta[0];
+    if (resultado) {
+      let html = '';
+      html += `<p><strong>Atención:</strong> ${resultado.atencion}</p><br>`;
+      html += `<p><strong>Recomienda:</strong> ${resultado.recomienda}</p><br>`;
+      html += `<p><strong>Higiene Consultorio:</strong> ${resultado.higiene_consultorio}</p><hr>`;
+      Swal.fire({
+        title: 'Resultado Encuesta',
+        html: html,
+        confirmButtonText: 'Cerrar'
+      });
     }
   }
 }

@@ -33,11 +33,11 @@ export class SeccionPacientesComponent {
 
   async obtenerTurnos() {
     this.turnos = await this.db.traerTurnosRealizadosPorRol(this.columnaBusqueda, this.auth.idUsuario);
-    console.log('Turnos todos: ', this.turnos);
+    
     if(this.turnos){
       this.obtenerPacientes();
       this.turnosPorId = this.agruparPorId(this.turnos);
-      console.log('turnos separados', this.turnosPorId);
+      
     }
   }
 
@@ -69,7 +69,7 @@ async obtenerPacientes() {
   }
 
   this.pacientes = Array.from(pacientesMap.values());
-  console.log('pacientes', this.pacientes);
+  
 }
 
   verResena(turno: any) {

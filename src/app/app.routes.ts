@@ -8,6 +8,7 @@ import { SeccionUsuariosComponent } from './pages/seccion-usuarios/seccion-usuar
 import { PrincipalPacienteComponent } from './pages/principal-paciente/principal-paciente.component';
 import { PrincipalEspecialistaComponent } from './pages/principal-especialista/principal-especialista.component';
 import { RedireccionComponent } from './pages/redireccion/redireccion.component';
+import { logueadoGuardGuard } from './guards/logueado-guard.guard';
 
 
 export const routes: Routes = [
@@ -25,18 +26,21 @@ export const routes: Routes = [
     {
         path: "seccion-usuarios",
         component: SeccionUsuariosComponent,
-        loadChildren: () => import("./pages/seccion-usuarios/seccion-usuarios.routes").then((archivo)=> archivo.routes)
+        loadChildren: () => import("./pages/seccion-usuarios/seccion-usuarios.routes").then((archivo)=> archivo.routes),
+        canActivate: [logueadoGuardGuard]
         
     },
     {
         path: "paciente",
         component: PrincipalPacienteComponent,
-        loadChildren: () => import("./pages/principal-paciente/principal-paciente.routes").then((archivo)=> archivo.routes)
+        loadChildren: () => import("./pages/principal-paciente/principal-paciente.routes").then((archivo)=> archivo.routes),
+        canActivate: [logueadoGuardGuard]
     },
     {
         path: "especialista",
         component: PrincipalEspecialistaComponent,
-        loadChildren: () => import("./pages/principal-especialista/principal-especialista.routes").then((archivo)=> archivo.routes)
+        loadChildren: () => import("./pages/principal-especialista/principal-especialista.routes").then((archivo)=> archivo.routes),
+        canActivate: [logueadoGuardGuard]
     },
     { path: '**', redirectTo: 'redireccion' }
 ];

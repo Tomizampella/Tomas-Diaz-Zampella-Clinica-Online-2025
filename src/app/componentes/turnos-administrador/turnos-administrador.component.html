@@ -38,10 +38,13 @@
                                     {{item.especialista.apellido}}</p>
                             </div>
                             <!-- Boton cancelar solo para estado:pendiente -->
-                            <div *ngIf="item.estado === 'pendiente'"
-                                class="d-flex flex-wrap gap-2 justify-content-center">
-                                <button type="button" class="btn btn-danger"
+                            <div class="d-flex flex-wrap gap-2 justify-content-center">
+                                <button *ngIf="item.estado === 'pendiente'" type="button" class="btn btn-danger"
                                     (click)="cancelarTurno(item)">Cancelar</button>
+                                <button *ngIf="item.estado === 'realizado' && item.calificacion_atencion" type="button" class="btn btn-warning"
+                                    (click)="verCalificacion(item)">Calificación</button>
+                                <button *ngIf="item.estado === 'realizado' && item.hizo_la_encuesta" type="button" class="btn pendiente"
+                                    (click)="verResultadoEncuesta(item)">Ver encuesta</button>
                             </div>
                         </div>
                     </div>
