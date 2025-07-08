@@ -4,6 +4,7 @@
   flex-direction: column;
   height: 100%;
   overflow: hidden;
+  width: 100%;
 }
 
 /* Contenedor principal entre header y footer */
@@ -11,6 +12,8 @@
   flex: 1 1 auto;
   display: flex;
   overflow: hidden;
+  height: 100%;
+  width: 100%;
 }
 
 /* Laterales izquierdo y derecho */
@@ -20,6 +23,8 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  height: 100%;
+  width: 100%;
 }
 
 .componente-container{

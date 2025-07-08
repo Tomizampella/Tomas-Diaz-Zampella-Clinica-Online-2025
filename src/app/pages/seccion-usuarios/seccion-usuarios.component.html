@@ -30,13 +30,16 @@
   </nav>
 
   <!-- Contenido principal -->
-  <div class="contenido flex-grow-1 p-2 overflow-auto">
-     <div *ngIf="mostrarTexto">
-      <h2>Sección de Usuarios</h2>
-      <p>Seleccione alguna opción de la barra lateral.</p>
-    </div>
-    <router-outlet/>
-  </div>
-</div>
+   <div class="w-100 h-100 p-2">
+     <div [@routeAnimations]="getRouteAnimationData()" class="contenido">
+        <div *ngIf="mostrarTexto">
+         <h2>Sección de Usuarios</h2>
+         <p>Seleccione alguna opción de la barra lateral.</p>
+       </div>
+       <router-outlet/>
+     </div>
+   </div>
+
+   </div>
 
 <app-footer></app-footer>

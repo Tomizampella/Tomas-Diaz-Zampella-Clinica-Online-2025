@@ -23,6 +23,8 @@
 
 /* Contenido principal */
 .contenido {
-  flex-grow: 1;
-  overflow-y: auto;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%; /* o el alto deseado */
 }

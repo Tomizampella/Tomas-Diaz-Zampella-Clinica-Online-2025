@@ -70,20 +70,7 @@
   font-size: 0.8rem;
 }
 
-@keyframes slideInFwdCenter {
-    0% {
-      transform: translateZ(-1400px);
-      opacity: 0;
-    }
-    100% {
-      transform: translateZ(0);
-      opacity: 1;
-    }
-  }
-  
-  .slide-in {
-    animation: slideInFwdCenter 1s ease-out 0s both;
-  }
+
 
   .hide-toggle::after {
   display: none !important;

@@ -1,6 +1,9 @@
 /* Estilo raíz del componente */
 :host {
   display: block;
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
 
 }
 
@@ -38,6 +41,14 @@
 .input-group {
   display: flex;
   align-items: center;
+}
+
+.registro-container {
+  flex: 1 1 auto;
+  display: flex;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
 }
 
 

@@ -16,7 +16,7 @@ export const routes: Routes = [
         redirectTo: "home",
         pathMatch: "full"
     },
-    { path: 'home', loadComponent: () => import("./pages/home/home.component").then((archivo) => archivo.HomeComponent) },
+    { path: 'home', loadComponent: () => import("./pages/home/home.component").then((archivo) => archivo.HomeComponent)},
     { path: 'registro', loadComponent: () => import("./pages/registro/registro.component").then((archivo) => archivo.RegistroComponent) },
     { path: 'login', loadComponent: () => import("./pages/login/login.component").then((archivo) => archivo.LoginComponent) },
     { path: 'redireccion', loadComponent: () => import("./pages/redireccion/redireccion.component").then((archivo) => archivo.RedireccionComponent) },
